@@ -28,7 +28,5 @@ public class AddBook implements  Command {
         library.addBook(book);
         System.out.println("Book #" + book.getId() + " added.");
     }
-    
-    //this is a test branch and test commit
 }
  
