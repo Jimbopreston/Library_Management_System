@@ -56,8 +56,8 @@ public class Book {
     }
 
     public String getDetailsLong() {
-        // TODO: implementation here
-        return null;
+        
+        return "Book #" + id + " - " + title + "Author -" +  author + "Publication Year -";
     }
     
     public boolean isOnLoan() {
@@ -65,17 +65,27 @@ public class Book {
     }
     
     public String getStatus() {
-        // TODO: implementation here
-        return null;
+    	if (isOnLoan()) {
+    		return "On Loan";
+    	}else {
+    		return "Available";
+    	}
     }
 
     public LocalDate getDueDate() {
-        // TODO: implementation here
-        return null;
+        if(isOnLoan()) {
+        	return loan.getDueDate();	
+        }else {
+        	return null;
+        } 
     }
     
     public void setDueDate(LocalDate dueDate) throws LibraryException {
-        // TODO: implementation here
+        if (!isOnLoan()) {
+        	throw new LibraryException("Cannot set due date of a book that isnt on loan");
+        }else {
+        	loan.setDueDate(dueDate);
+        }
     }
 
     public Loan getLoan() {
