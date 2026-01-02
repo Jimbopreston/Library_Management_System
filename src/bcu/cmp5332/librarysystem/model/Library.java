@@ -24,6 +24,11 @@ public class Library {
         }
         return books.get(id);
     }
+    
+    public List<Patron> getPatrons(){
+    	List<Patron> out = new ArrayList<>(patrons.values());
+    	return Collections.unmodifiableList(out);
+    }
 
     public Patron getPatronByID(int id) throws LibraryException {
         if (!patrons.containsKey(id)) {
