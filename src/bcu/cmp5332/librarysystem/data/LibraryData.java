@@ -17,7 +17,7 @@ public class LibraryData {
         
         /* Uncomment the two lines below when the implementation of their 
         loadData() and storeData() methods is complete */
-        // dataManagers.add(new PatronDataManager());
+        dataManagers.add(new PatronDataManager());
         // dataManagers.add(new LoanDataManager());
     }
     
