@@ -8,6 +8,8 @@ public class Loan {
     private Book book;
     private LocalDate startDate;
     private LocalDate dueDate;
+    
+    
 
     public Loan(Patron patron, Book book, LocalDate startDate, LocalDate dueDate) {
         this.patron = patron;
