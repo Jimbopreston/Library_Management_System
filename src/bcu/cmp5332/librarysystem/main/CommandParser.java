@@ -2,6 +2,7 @@ package bcu.cmp5332.librarysystem.main;
 
 import bcu.cmp5332.librarysystem.commands.LoadGUI;
 import bcu.cmp5332.librarysystem.commands.ListBooks;
+import bcu.cmp5332.librarysystem.commands.AddPatron;
 import bcu.cmp5332.librarysystem.commands.ListPatrons;
 import bcu.cmp5332.librarysystem.commands.AddBook;
 import bcu.cmp5332.librarysystem.commands.ShowBook;
@@ -32,8 +33,18 @@ public class CommandParser {
                 String publisher = br.readLine();
                 
                 return new AddBook(title, author, publicationYear, publisher);
-            } else if (cmd.equals("addpatron")) {
                 
+            } else if (cmd.equals("addpatron")) {
+            	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            	System.out.print("Name: ");
+            	String name = br.readLine();
+            	System.out.print("Phone: ");
+            	String phone = br.readLine();
+            	System.out.print("Email: ");
+            	String email = br.readLine();
+            	
+            	return new AddPatron(name, phone, email);
+            	
             } else if (cmd.equals("loadgui")) {
                 return new LoadGUI();
             } else if (parts.length == 1) {
