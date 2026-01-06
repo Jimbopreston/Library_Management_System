@@ -1,10 +1,8 @@
 package bcu.cmp5332.librarysystem.commands;
 
 import java.time.LocalDate;
-import java.util.*;
 import bcu.cmp5332.librarysystem.model.Patron;
 import bcu.cmp5332.librarysystem.model.Book;
-import java.time.LocalDate;
 import bcu.cmp5332.librarysystem.main.LibraryException;
 import bcu.cmp5332.librarysystem.model.Library;
 
@@ -18,17 +16,18 @@ public class RenewBook implements Command {
 	}
 	@Override
 	public void execute(Library library, LocalDate currentDate) throws LibraryException {
-		List<Book> books = library.getBooks();
-		List<Patron> patrons = library.getPatrons();
-		for (Book book :books) {
-			if(book.getId() == bookId) {
-				//dueDate = book.getDueDate()
-			}
+		try {
+			Book book = library.getBookByID(bookId);
+			Patron patron = library.getPatronByID(patronId);
+			
+			LocalDate renewDate = book.getDueDate();
+			renewDate.plusDays(library.getLoanPeriod());
+			
+	        patron.renewBook(book, renewDate);
+	        System.out.println("The new due date is: " + renewDate);
+	        
+		}catch (LibraryException e) {
+			System.out.println("Error: " + e.getMessage());
 		}
-        for (Patron patron : patrons) {
-            if(patron.getId() == patronId) {
-            	patron.renewBook(null, currentDate);
-            }
-        }
 	}
 }
