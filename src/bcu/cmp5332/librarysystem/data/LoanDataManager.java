@@ -1,5 +1,4 @@
 package bcu.cmp5332.librarysystem.data;
-
 import bcu.cmp5332.librarysystem.main.LibraryException;
 import bcu.cmp5332.librarysystem.model.Loan;
 import bcu.cmp5332.librarysystem.model.Book;
@@ -11,6 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
+import java.util.List;
 
 public class LoanDataManager implements DataManager {
     
@@ -25,16 +25,20 @@ public class LoanDataManager implements DataManager {
                   String line = sc.nextLine();
                   String[] properties = line.split(SEPARATOR, -1);
                   try {
-                      int id = Integer.parseInt(properties[0]);
-                      String patron = properties[1]; //these need to be converted into integers to find which patron or book we are meant to be creating a loan with
-                      String book = properties[2];
-                      String startDate = properties[3];
-                      String dueDate = properties[3];
+                      int patronID = Integer.parseInt(properties[0]); //these need to be converted into integers to find which patron or book we are meant to be creating a loan with
+                      int bookID = Integer.parseInt(properties[1]);
+                      LocalDate startDate = LocalDate.parse(properties[2]);
+                      LocalDate dueDate = LocalDate.parse(properties[3]);
                       
-                    //  Loan loan = new Loan(patron, book, startDate, dueDate);
+                      Patron patron = library.getPatronByID(patronID);
+                      Book book = library.getBookByID(bookID);
+                      Loan loan = new Loan(patron,book,startDate,dueDate);
+                      book.setLoan(loan);
+                      patron.addBook(book);
+                    
                    
                   } catch (NumberFormatException ex) {
-                      throw new LibraryException("Unable to parse book id " + properties[0] + " on line " + line_idx
+                      throw new LibraryException("Unable to parse patron id " + properties[0] + " on line " + line_idx
                           + "\nError: " + ex);
                   }
                   line_idx++;
@@ -44,14 +48,21 @@ public class LoanDataManager implements DataManager {
 
     @Override
     public void storeData(Library library) throws IOException {
-        // TODO: implementation here
     	  try (PrintWriter out = new PrintWriter(new FileWriter(RESOURCE))) {
-              for (Book book : library.getBooks()) {
-                  out.print(book.getId() + SEPARATOR);
-                  out.print(book.getTitle() + SEPARATOR);
-                  out.print(book.getAuthor() + SEPARATOR);
-                  out.print(book.getPublicationYear() + SEPARATOR);
-                  out.println();
+              for (Patron patron : library.getPatrons()) {
+            	  List<Book> books = patron.getBooks();
+            	  if(books.size() == 0) {
+            		  System.out.println();
+            	  }else {
+            	  out.print(patron.getId() + SEPARATOR);
+            	  for(Book book : books) {
+            		  out.print(book.getId() + SEPARATOR);
+            		  Loan loan = book.getLoan();
+            		  out.print(loan.getStartDate() + SEPARATOR);
+            		  out.print(loan.getDueDate() + SEPARATOR);
+            		  out.println();
+            	  	}
+        	    }
             }
         }
     } 

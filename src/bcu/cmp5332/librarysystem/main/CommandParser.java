@@ -77,7 +77,7 @@ public class CommandParser {
                     return new RenewBook(patronID,bookID);
                     
                 } else if (cmd.equals("return")) {
-                    return new ReturnBook(bookID);
+                    return new ReturnBook(patronID,bookID);
                 }
             }
         } catch (NumberFormatException ex) {

@@ -31,6 +31,3 @@ public class AddBook implements  Command {
         System.out.println("Book #" + book.getId() + " added.");
     }
 }
-
-//hello jim
- 

@@ -77,8 +77,8 @@ public class Patron {
     }
 
     public void returnBook(Book book) throws LibraryException {
-        // TODO: implementation here
-    	if (book.isOnLoan()) {
+        
+    	if (!book.isOnLoan()) {
     		throw new LibraryException("Cannot return a book that isnt on loan");
     	}else {
     		

@@ -25,7 +25,7 @@ public class BorrowBook implements Command{
 			
 			patron.borrowBook(book, dueDate);
 			
-			System.out.println("Book borrowed. Return date: " + dueDate);
+			System.out.println(book.getTitle() + " has been borrowed. Return date: " + dueDate);
 		} catch (LibraryException e) {
 			System.out.println("Error: "+ e.getMessage());
 		}

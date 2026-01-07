@@ -1,6 +1,7 @@
 package bcu.cmp5332.librarysystem.commands;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import bcu.cmp5332.librarysystem.main.LibraryException;
 import bcu.cmp5332.librarysystem.model.Book;
 import bcu.cmp5332.librarysystem.model.Library;
@@ -30,12 +31,18 @@ public class ReturnBook implements Command {
 			
 			Loan loan = book.getLoan();
 			LocalDate dueDate = loan.getDueDate();
+			long daysBetween = ChronoUnit.DAYS.between(dueDate,currentDate);
+			if(dueDate.isBefore(currentDate)) {
+				System.out.println("Book was overdue by " + daysBetween + " days."  );
+			}
 			
+			patron.returnBook(book);
+			System.out.println(book.getTitle() + " has been returned.");
 			
-					
-		
-		
-
+	}catch(LibraryException e) {
+		System.out.println("Error: " + e.getMessage());
 	}
 
+	}
 }
+

@@ -17,20 +17,17 @@ public class ShowPatron implements Command {
 	@Override
 	public void execute(Library library, LocalDate currentDate) throws LibraryException {
 		// TODO Auto-generated method stub
-		List<Patron> patrons = library.getPatrons();
-		for (Patron patron : patrons) {
-			if(patron.getId() == patronId) {
-				System.out.println(patron.getId());
-				System.out.println(patron.getName());
-				System.out.println(patron.getPhone());
-				System.out.println(patron.getEmail());
-				List<Book> books = patron.getBooks(); //add patron doesnt have any books check later on
-				for (Book book :books) {
-					System.out.println(book.getTitle());
-				}
-				System.out.println(books.size());
-			}
+		Patron patron = library.getPatronByID(patronId);
+		System.out.println(patron.getId());
+		System.out.println(patron.getName());
+		System.out.println(patron.getPhone());
+		System.out.println(patron.getEmail());
+		List<Book> books = patron.getBooks(); //add patron doesnt have any books check later on
+		for (Book book :books) {
+			System.out.println(book.getTitle());
 		}
+		System.out.println(books.size());
 	}
-
 }
+
+
