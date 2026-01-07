@@ -20,11 +20,11 @@ public class RenewBook implements Command {
 			Book book = library.getBookByID(bookId);
 			Patron patron = library.getPatronByID(patronId);
 			
-			LocalDate renewDate = book.getDueDate();
-			renewDate.plusDays(library.getLoanPeriod());
+			LocalDate currentDueDate = book.getDueDate();
+			LocalDate newDueDate = currentDueDate.plusDays(library.getLoanPeriod());
 			
-	        patron.renewBook(book, renewDate);
-	        System.out.println("The new due date is: " + renewDate);
+	        patron.renewBook(book, newDueDate);
+	        System.out.println("The new due date is: " + newDueDate);
 	        
 		}catch (LibraryException e) {
 			System.out.println("Error: " + e.getMessage());
