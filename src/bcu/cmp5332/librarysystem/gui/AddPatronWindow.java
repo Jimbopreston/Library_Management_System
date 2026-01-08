@@ -2,11 +2,15 @@ package bcu.cmp5332.librarysystem.gui;
 
 import bcu.cmp5332.librarysystem.commands.AddPatron;
 import bcu.cmp5332.librarysystem.commands.Command;
+import bcu.cmp5332.librarysystem.data.LibraryData;
 import bcu.cmp5332.librarysystem.main.LibraryException;
+import bcu.cmp5332.librarysystem.model.Library;
+
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.time.LocalDate;
 
 import javax.swing.JButton;
@@ -89,6 +93,23 @@ public class AddPatronWindow extends JFrame implements ActionListener {
             // create and execute the AddPatron Command
             Command addPatron = new AddPatron(name, phone, email);
             addPatron.execute(mw.getLibrary(), LocalDate.now());
+            
+            //lets the GUI save to the text files.
+            try {
+                LibraryData.store(mw.getLibrary());
+            //Error message
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(this, "Error saving data. Rolling back changes."
+                		+ "\nError Details: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                //rolls back the changes if it cannot save to the text file.
+                try {
+                	Library cleanLib = LibraryData.load();
+                  	mw.setLibrary(cleanLib);
+                } catch (Exception ex) {
+                	JOptionPane.showMessageDialog(this, "Rollback failed: " + ex.getMessage());
+                }
+            }
+            
             // refresh the view with the list of patrons
             mw.displayPatrons();
             // hide (close) the AddPatronWindow

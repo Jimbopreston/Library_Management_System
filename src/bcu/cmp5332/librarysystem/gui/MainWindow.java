@@ -48,6 +48,11 @@ public class MainWindow extends JFrame implements ActionListener {
     public Library getLibrary() {
         return library;
     }
+    
+    // Needed for the rollback. It tells the MainWindow to stop looking at the corrupted memory.
+    public void setLibrary (Library library) {
+    	this.library = library;
+    }
 
     /**
      * Initialize the contents of the frame.
@@ -292,5 +297,6 @@ public class MainWindow extends JFrame implements ActionListener {
         this.getContentPane().add(new JScrollPane(table));
         this.revalidate();
         this.repaint();
-    }	
+    }
+    
 }
