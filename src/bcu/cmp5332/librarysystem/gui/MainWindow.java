@@ -141,7 +141,7 @@ public class MainWindow extends JFrame implements ActionListener {
             
             
         } else if (ae.getSource() == booksIssue) {
-            
+            new IssueBookWindow(this);
             
         } else if (ae.getSource() == booksReturn) {
             
