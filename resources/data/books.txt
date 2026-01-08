@@ -2,3 +2,4 @@
 23::Nineteen Eighty-Four::George Orwell::1949::Penguin Books::
 42::The Hitchhiker's Guide to the Galaxy::Douglas Adams::1979::Pan Macmillan::
 43::The War of The Worlds::H.G. Wells::1898::HarperCollins::
+44::The Hunger Games::Suzanne Collins::2008::Scholastic::
