@@ -17,6 +17,16 @@ public class Library {
         List<Book> out = new ArrayList<>(books.values());
         return Collections.unmodifiableList(out);
     }
+    
+    public List<Book> getActiveBooks() {
+    	List<Book> activeBooks = new ArrayList<>();
+    	for (Book book : books.values()) {
+    		if (!book.getDeletedStatus()) {
+    			activeBooks.add(book);
+    		}
+    	}
+    	return activeBooks;
+    }
 
     public Book getBookByID(int id) throws LibraryException {
         if (!books.containsKey(id)) {

@@ -27,6 +27,15 @@ public class BookDataManager implements DataManager {
                     String publicationYear = properties[3];
                     String publisher = properties[4];
                     Book book = new Book(id, title, author, publicationYear, publisher);
+                    
+                    //softdelete flag
+                    if (properties.length > 5) {
+                    	boolean isDeleted = Boolean.parseBoolean(properties[5]);
+                    	if (isDeleted) {
+                    		book.softDeleteBook();
+                    	}
+                    }
+                    
                     library.addBook(book);
                 } catch (NumberFormatException ex) {
                     throw new LibraryException("Unable to parse book id " + properties[0] + " on line " + line_idx
@@ -46,6 +55,7 @@ public class BookDataManager implements DataManager {
                 out.print(book.getAuthor() + SEPARATOR);
                 out.print(book.getPublicationYear() + SEPARATOR);
                 out.print(book.getPublisher() + SEPARATOR);
+                out.print(book.getDeletedStatus() + SEPARATOR);
                 
                 out.println();
             }
