@@ -2,14 +2,17 @@ package bcu.cmp5332.librarysystem.gui;
 
 import bcu.cmp5332.librarysystem.commands.BorrowBook;
 import bcu.cmp5332.librarysystem.commands.Command;
+import bcu.cmp5332.librarysystem.data.LibraryData;
 import bcu.cmp5332.librarysystem.main.LibraryException;
 import bcu.cmp5332.librarysystem.model.Book;
+import bcu.cmp5332.librarysystem.model.Library;
 import bcu.cmp5332.librarysystem.model.Patron;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.time.LocalDate;
 
 import java.util.List;
@@ -114,6 +117,22 @@ public class IssueBookWindow extends JFrame implements ActionListener {
                 //creates and executes the borrow book command
                 Command borrow = new BorrowBook(patronId, bookId);
                 borrow.execute(mw.getLibrary(), LocalDate.now());
+                
+                //lets the GUI save to the text files.
+                try {
+                    LibraryData.store(mw.getLibrary());
+                //Error message
+                } catch (IOException e) {
+                    JOptionPane.showMessageDialog(this, "Error saving data. Rolling back changes."
+                    		+ "\nError Details: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    //rolls back the changes if it cannot save to the text file.
+                    try {
+                    	Library cleanLib = LibraryData.load();
+                      	mw.setLibrary(cleanLib);
+                    } catch (Exception ex) {
+                    	JOptionPane.showMessageDialog(this, "Rollback failed: " + ex.getMessage());
+                    }
+                }
                 
                 //refreshes the displayBooks window
                 mw.displayBooks();
