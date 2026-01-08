@@ -150,7 +150,7 @@ public class MainWindow extends JFrame implements ActionListener {
             displayPatrons();
             
         } else if (ae.getSource() == memAdd) {
-            
+            new AddPatronWindow(this);
             
         } else if (ae.getSource() == memDel) {
             
