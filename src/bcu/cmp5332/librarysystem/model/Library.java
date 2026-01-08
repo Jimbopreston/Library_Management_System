@@ -39,6 +39,16 @@ public class Library {
     	List<Patron> out = new ArrayList<>(patrons.values());
     	return Collections.unmodifiableList(out);
     }
+    
+    public List<Patron> getActivePatrons(){
+    	List<Patron> activePatrons = new ArrayList<>();
+        for (Patron patron : patrons.values()) {
+            if (!patron.getDeletedStatus()) {
+                activePatrons.add(patron);
+            }
+        }
+        return activePatrons;
+    }
 
     public Patron getPatronByID(int id) throws LibraryException {
         if (!patrons.containsKey(id)) {
