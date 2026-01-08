@@ -11,6 +11,7 @@ public class Patron {
     private String name;
     private String phone;
     private String email;
+    private boolean deletedStatus;
     private final List<Book> books = new ArrayList<>();
     
     public Patron(int id, String name, String phone, String email) {
@@ -55,6 +56,10 @@ public class Patron {
 	public List<Book> getBooks() {
 		return books;
 	}
+	
+	public boolean getDeletedStatus() {
+		return deletedStatus;
+	}
 
     public void borrowBook(Book book, LocalDate dueDate) throws LibraryException {
     if (book.isOnLoan()) {
@@ -91,5 +96,8 @@ public class Patron {
     	books.add(book);
     }
     
+    public boolean softDeletePatron() {
+    	return this.deletedStatus = true;
+    }
 }
  

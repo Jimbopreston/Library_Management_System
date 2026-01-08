@@ -18,15 +18,22 @@ public class ShowPatron implements Command {
 	public void execute(Library library, LocalDate currentDate) throws LibraryException {
 		// TODO Auto-generated method stub
 		Patron patron = library.getPatronByID(patronId);
-		System.out.println(patron.getId());
-		System.out.println(patron.getName());
-		System.out.println(patron.getPhone());
-		System.out.println(patron.getEmail());
-		List<Book> books = patron.getBooks(); //add patron doesnt have any books check later on
-		for (Book book :books) {
-			System.out.println(book.getTitle());
+		if(patron.getDeletedStatus() == false) {
+			System.out.println(patron.getId());
+			System.out.println(patron.getName());
+			System.out.println(patron.getPhone());
+			System.out.println(patron.getEmail());
+			List<Book> books = patron.getBooks();
+			if(books.size()>0) {
+				for (Book book :books) {
+					System.out.println(book.getTitle());
+				}
+				System.out.println(books.size());
+			}
+			
+			}else {
+				System.out.println("Cannot find patron you are looking for");
 		}
-		System.out.println(books.size());
 	}
 	
 	public boolean altersData() {
