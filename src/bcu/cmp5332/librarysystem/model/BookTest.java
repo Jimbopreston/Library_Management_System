@@ -70,6 +70,17 @@ public class BookTest {
 		book.setPublisher("Penguin Books");
 		assertEquals("Penguin Books", book.getPublisher());//passes if the publisher is changed correctly
 	}
+	
+	@Test
+	public void testGetDeletedStatus() {
+		assertFalse( book.getDeletedStatus());//passes if the deletedStatus is false to begin with
+	}
+	
+	@Test
+	public void testSoftDeleteBook() {
+		boolean output = book.softDeleteBook();
+		assertTrue(output);//passes if the deletedStatus is false to begin with
+	}
 
 	@Test
 	public void testGetDetailsShort() {
