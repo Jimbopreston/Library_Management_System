@@ -30,5 +30,9 @@ public class AddPatron implements Command {
         library.addPatron(patron);
         System.out.println("Patron #" + patron.getId() + " added.");
     }
+    
+    public boolean altersData() {
+    	return true;
+    }
 }
  

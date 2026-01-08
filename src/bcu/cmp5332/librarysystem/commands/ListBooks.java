@@ -15,5 +15,9 @@ public class ListBooks implements Command {
         }
         System.out.println(books.size() + " book(s)");
     }
+    
+    public boolean altersData() {
+    	return false;
+    }
 }
  

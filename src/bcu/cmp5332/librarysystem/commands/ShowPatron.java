@@ -28,6 +28,10 @@ public class ShowPatron implements Command {
 		}
 		System.out.println(books.size());
 	}
+	
+	public boolean altersData() {
+    	return false;
+    }
 }
 
 

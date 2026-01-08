@@ -30,4 +30,8 @@ public class AddBook implements  Command {
         library.addBook(book);
         System.out.println("Book #" + book.getId() + " added.");
     }
+    
+    public boolean altersData() {
+    	return true;
+    }
 }

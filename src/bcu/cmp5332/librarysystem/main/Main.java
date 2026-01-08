@@ -27,10 +27,13 @@ public class Main {
             try {
                 Command command = CommandParser.parse(line);
                 command.execute(library, LocalDate.now()); 
-               // if(command changes data run code){
-                //try {
-                //		LibraryData.store(library);
-                //}catch
+                if(command.altersData() == true) {
+                	try {
+                		LibraryData.store(library);
+                    }catch(IOException e){
+                        	throw new LibraryException("Failed to save data to file");
+                	}
+                }
             } catch (LibraryException ex) {
                 System.out.println(ex.getMessage());
             }

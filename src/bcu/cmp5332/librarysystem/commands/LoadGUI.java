@@ -12,5 +12,9 @@ public class LoadGUI implements Command {
         new MainWindow(library);
     }
     
+    public boolean altersData() {
+    	return false;
+    }
+    
 }
  

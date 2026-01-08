@@ -10,5 +10,9 @@ public class Help implements Command {
     public void execute(Library library, LocalDate currentDate) {
         System.out.println(Command.HELP_MESSAGE);
     }
+    
+    public boolean altersData() {
+    	return false;
+    }
 }
  
