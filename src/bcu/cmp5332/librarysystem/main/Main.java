@@ -26,7 +26,11 @@ public class Main {
 
             try {
                 Command command = CommandParser.parse(line);
-                command.execute(library, LocalDate.now());                
+                command.execute(library, LocalDate.now()); 
+               // if(command changes data run code){
+                //try {
+                //		LibraryData.store(library);
+                //}catch
             } catch (LibraryException ex) {
                 System.out.println(ex.getMessage());
             }
