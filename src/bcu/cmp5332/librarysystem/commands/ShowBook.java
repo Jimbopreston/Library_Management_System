@@ -17,8 +17,8 @@ public class ShowBook implements Command {
 	
 	@Override
 	public void execute(Library library, LocalDate currentDate) throws LibraryException {
-	
 		Book book = library.getBookByID(bookId);
+		if(book.getDeletedStatus()==false) {
 				System.out.println(book.getDetailsLong());
 				if(book.isOnLoan()) {
 					Loan loan = book.getLoan();
@@ -29,6 +29,9 @@ public class ShowBook implements Command {
 					System.out.println("Patron Email: " + patron.getEmail());
 					System.out.println("Due Date = " + book.getDueDate());
 					}
+		}else {
+			System.out.println("Cannot find book you are looking for");
+		}
 	}
 	
 	public boolean altersData() {

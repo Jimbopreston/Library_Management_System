@@ -12,6 +12,8 @@ public interface Command {
             + "\tlistpatrons                     print all patrons\n"
             + "\taddbook                         add a new book*\n"
             + "\taddpatron                       add a new patron\n"
+            + "\tdeletebook                      delete a book\n"
+            + "\tdeletepatron                    delete a patron\n"
             + "\tshowbook                        show book details\n"
             + "\tshowpatron                      show patron details\n"
             + "\tborrow                          borrow a book\n"

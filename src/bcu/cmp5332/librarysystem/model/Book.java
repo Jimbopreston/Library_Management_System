@@ -10,7 +10,7 @@ public class Book {
     private String author;
     private String publicationYear;
     private String publisher;
-
+    private boolean deletedStatus;
     private Loan loan;
 
     public Book(int id, String title, String author, String publicationYear, String publisher) {
@@ -60,6 +60,10 @@ public class Book {
     public void setPublisher(String publisher) {
     	this.publisher = publisher;
     }
+    
+    public boolean getDeletedStatus() {
+    	return deletedStatus;
+    }
 	
     public String getDetailsShort() {
         return "Book #" + id + " - " + title;
@@ -108,5 +112,9 @@ public class Book {
 
     public void returnToLibrary() {
         loan = null;
+    }
+    
+    public boolean softDeleteBook() {
+    	return this.deletedStatus = true;
     }
 }
