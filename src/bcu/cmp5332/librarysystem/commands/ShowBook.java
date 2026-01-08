@@ -30,4 +30,8 @@ public class ShowBook implements Command {
 					System.out.println("Due Date = " + book.getDueDate());
 					}
 	}
+	
+	public boolean altersData() {
+    	return false;
+    }
 }	

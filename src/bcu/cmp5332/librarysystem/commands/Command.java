@@ -24,5 +24,7 @@ public interface Command {
     
     public void execute(Library library, LocalDate currentDate) throws LibraryException;
     
+    public boolean altersData();
+    
 }
  

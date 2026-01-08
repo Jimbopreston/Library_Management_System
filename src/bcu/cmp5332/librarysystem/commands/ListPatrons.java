@@ -16,4 +16,8 @@ public class ListPatrons implements Command {
         }
         System.out.println(patrons.size() + " patron(s)");
 	}
+	
+	public boolean altersData() {
+    	return false;
+    }
 }

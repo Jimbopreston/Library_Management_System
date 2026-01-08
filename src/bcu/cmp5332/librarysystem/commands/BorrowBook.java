@@ -30,4 +30,8 @@ public class BorrowBook implements Command{
 			System.out.println("Error: "+ e.getMessage());
 		}
 	}
+	
+	public boolean altersData() {
+    	return true;
+    }
 }

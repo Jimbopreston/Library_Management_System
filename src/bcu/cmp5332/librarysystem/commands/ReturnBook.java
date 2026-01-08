@@ -44,5 +44,8 @@ public class ReturnBook implements Command {
 	}
 
 	}
+	
+	public boolean altersData() {
+    	return true;
+    }
 }
-
