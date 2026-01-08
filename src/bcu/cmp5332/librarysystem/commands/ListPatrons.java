@@ -12,7 +12,9 @@ public class ListPatrons implements Command {
 	public void execute(Library library, LocalDate currentDate) throws LibraryException{
 		List<Patron> patrons = library.getPatrons();
         for (Patron patron : patrons) {
+        	if(patron.getDeletedStatus() == false) {
             System.out.println(patron.getName());
+        	}
         }
         System.out.println(patrons.size() + " patron(s)");
 	}
