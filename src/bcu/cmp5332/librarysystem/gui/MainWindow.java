@@ -2,9 +2,14 @@ package bcu.cmp5332.librarysystem.gui;
 
 import bcu.cmp5332.librarysystem.model.Book;
 import bcu.cmp5332.librarysystem.model.Library;
+import bcu.cmp5332.librarysystem.model.Patron;
+import bcu.cmp5332.librarysystem.main.LibraryException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -153,23 +158,75 @@ public class MainWindow extends JFrame implements ActionListener {
         }
     }
 
+    //method to show the loan details (used in displayBooks when a book is clicked in GUI)
+    private void showLoanDetails(int bookId) {
+        try {
+        	//accesses the model
+            Book book = library.getBookByID(bookId);
+            
+            //if the book is on a loan, it retrieves the loan and patron objects, makes a message and displays it in a pop up. 
+            if (book.isOnLoan()) {
+                Patron patron = book.getLoan().getPatron();
+                
+                String message = "--- BOOK IS ON LOAN ---\n\n" +
+                                 "Title: " + book.getTitle() + "\n" +
+                                 "Due Date: " + book.getDueDate() + "\n\n" +
+                                 "--- Patron Details ---\n" +
+                                 "Name: " + patron.getName() + "\n" +
+                                 "Phone: " + patron.getPhone() + "\n" +
+                                 "Email: " + patron.getEmail();
+                
+                JOptionPane.showMessageDialog(this, message, "Loan Details", JOptionPane.INFORMATION_MESSAGE);
+                      
+            } else { //if it's not on loan, it makes a pop-up saying the book is available.
+            	String message = "--- BOOK IS AVAILABLE TO BORROW ---";
+            	
+            	JOptionPane.showMessageDialog(this, message, "", JOptionPane.INFORMATION_MESSAGE);
+            }
+            
+        } catch (LibraryException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     public void displayBooks() {
         List<Book> booksList = library.getBooks();
         // headers for the table
-        String[] columns = new String[]{"Title", "Author", "Pub Date", "Status"};
+        // added book ID to be stored in column 0
+        String[] columns = new String[]{"ID", "Title", "Author", "Pub Date", "Status"};
 
-        Object[][] data = new Object[booksList.size()][6];
+        Object[][] data = new Object[booksList.size()][5];
         for (int i = 0; i < booksList.size(); i++) {
             Book book = booksList.get(i);
-            data[i][0] = book.getTitle();
-            data[i][1] = book.getAuthor();
-            data[i][2] = book.getPublicationYear();
-            data[i][3] = book.getStatus();
+            data[i][0] = book.getId();
+            data[i][1] = book.getTitle();
+            data[i][2] = book.getAuthor();
+            data[i][3] = book.getPublicationYear();
+            data[i][4] = book.getStatus();
         }
 
         JTable table = new JTable(data, columns);
+        
+        //detects clicks
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent evt) {
+                int row = table.getSelectedRow();
+                if (row != -1) {
+                	//gets the ID from column 0, makes it a string
+                    String idStr = table.getValueAt(row, 0).toString();
+                    //turns the idStr into an integer for showLoanDetails to use
+                    int bookId = Integer.parseInt(idStr);
+                    
+                    //shows the loan details for the specific booked clicked.
+                    showLoanDetails(bookId);
+                }
+            }
+        });
+        
         this.getContentPane().removeAll();
         this.getContentPane().add(new JScrollPane(table));
         this.revalidate();
+        this.repaint();
     }	
 }
