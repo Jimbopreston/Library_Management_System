@@ -147,7 +147,7 @@ public class MainWindow extends JFrame implements ActionListener {
             
             
         } else if (ae.getSource() == memView) {
-            
+            displayPatrons();
             
         } else if (ae.getSource() == memAdd) {
             
@@ -223,6 +223,31 @@ public class MainWindow extends JFrame implements ActionListener {
                 }
             }
         });
+        
+        this.getContentPane().removeAll();
+        this.getContentPane().add(new JScrollPane(table));
+        this.revalidate();
+        this.repaint();
+    }
+    
+    public void displayPatrons() {
+        List<Patron> patronList = library.getPatrons();
+        // headers for the table
+        // added book ID to be stored in column 0
+        String[] columns = new String[]{"ID", "Name", "Phone", "Email", "Books on loan"};
+
+        Object[][] data = new Object[patronList.size()][5];
+        for (int i = 0; i < patronList.size(); i++) {
+            Patron patron = patronList.get(i);
+            data[i][0] = patron.getId();
+            data[i][1] = patron.getName();
+            data[i][2] = patron.getPhone();
+            data[i][3] = patron.getEmail();
+            data[i][4] = patron.getBooks().size();
+        }
+
+        JTable table = new JTable(data, columns);
+        
         
         this.getContentPane().removeAll();
         this.getContentPane().add(new JScrollPane(table));
