@@ -17,17 +17,14 @@ public class DeleteBook implements Command {
 	public void execute(Library library, LocalDate currentDate) throws LibraryException {
 		Book book = library.getBookByID(bookId);
 		
-		try {
-		if(book.isOnLoan()){
-			throw new LibraryException("Cannot Delete a book that is on loan");
-		} else {
+			if(book.isOnLoan()){
+				throw new LibraryException("Cannot Delete a book that is on loan");
+			}
+			
 			book.softDeleteBook();
 			System.out.println(book.getDetailsShort() + " deleted");
+					
 		}
-		} catch (LibraryException e) {
-			System.out.println("Error: "+ e.getMessage());
-		}		
-	}
 
 	@Override
 	public boolean altersData() {

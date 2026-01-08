@@ -10,10 +10,10 @@ public class ListPatrons implements Command {
 	
 	@Override
 	public void execute(Library library, LocalDate currentDate) throws LibraryException{
-		List<Patron> patrons = library.getPatrons();
+		List<Patron> patrons = library.getActivePatrons();
         for (Patron patron : patrons) {
         	if(patron.getDeletedStatus() == false) {
-            System.out.println(patron.getName());
+            System.out.println(patron.getId() + " - " + patron.getName());
         	}
         }
         System.out.println(patrons.size() + " patron(s)");
