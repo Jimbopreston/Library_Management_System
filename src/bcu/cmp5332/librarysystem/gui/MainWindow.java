@@ -181,12 +181,36 @@ public class MainWindow extends JFrame implements ActionListener {
             } else { //if it's not on loan, it makes a pop-up saying the book is available.
             	String message = "--- BOOK IS AVAILABLE TO BORROW ---";
             	
-            	JOptionPane.showMessageDialog(this, message, "", JOptionPane.INFORMATION_MESSAGE);
+            	JOptionPane.showMessageDialog(this, message, "Loan Details", JOptionPane.INFORMATION_MESSAGE);
             }
             
         } catch (LibraryException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+    
+    //method to show the details of books a patron has borrowed (used in displayPatrons when a patron is clicked in GUI)
+    private void showPatronDetails(int patronId) {
+    	try {
+    		Patron patron = library.getPatronByID(patronId);
+            List<Book> booksOnLoan = patron.getBooks();
+            
+            if (booksOnLoan.size() > 0) {
+            	String message = "--- PATRON DETAILS ---\n" +
+            					 "Name: " + patron.getName() + "\n" +
+            					 "Phone: " + patron.getPhone() + "\n\n" +
+            					 "--- BOOKS CURRENTLY BORROWED ---\n";
+            	
+            	for (Book book : booksOnLoan) {
+            		message += book.getTitle() + " - Due: " + book.getDueDate() + "\n";
+                }
+                
+                JOptionPane.showMessageDialog(this, message, "Patron Loans", JOptionPane.INFORMATION_MESSAGE);
+            }
+            
+    	} catch (LibraryException ex) {
+    		JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    	}
     }
 
     public void displayBooks() {
@@ -248,6 +272,21 @@ public class MainWindow extends JFrame implements ActionListener {
 
         JTable table = new JTable(data, columns);
         
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent evt) {
+                int row = table.getSelectedRow();
+                if (row != -1) {
+                	//gets the ID from column 0, makes it a string
+                    String idStr = table.getValueAt(row, 0).toString();
+                    //turns the idStr into an integer for showLoanDetails to use
+                    int patronId = Integer.parseInt(idStr);
+                    
+                    //shows the loan details for the specific booked clicked.
+                    showPatronDetails(patronId);
+                }
+            }
+        });
         
         this.getContentPane().removeAll();
         this.getContentPane().add(new JScrollPane(table));
