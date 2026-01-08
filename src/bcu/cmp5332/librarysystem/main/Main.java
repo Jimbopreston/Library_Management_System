@@ -31,7 +31,9 @@ public class Main {
                 	try {
                 		LibraryData.store(library);
                     }catch(IOException e){
-                        	throw new LibraryException("Failed to save data to file");
+                        	System.out.println("ERROR: Could not save correctly. Rolling back to previous state...");
+                        	library = LibraryData.load();
+                        	System.out.println("Rollback completed.");
                 	}
                 }
             } catch (LibraryException ex) {
