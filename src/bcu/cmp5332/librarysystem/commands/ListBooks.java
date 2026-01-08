@@ -9,7 +9,7 @@ public class ListBooks implements Command {
 
     @Override
     public void execute(Library library, LocalDate currentDate) throws LibraryException {
-        List<Book> books = library.getBooks();
+        List<Book> books = library.getActiveBooks();
         for (Book book : books) {
         	if(book.getDeletedStatus() == false)
             System.out.println(book.getDetailsShort());
