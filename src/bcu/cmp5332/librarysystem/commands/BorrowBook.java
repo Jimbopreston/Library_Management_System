@@ -15,8 +15,7 @@ public class BorrowBook implements Command{
 	}
 
 	@Override
-	public void execute (Library library, LocalDate currentDate) {
-		try {
+	public void execute (Library library, LocalDate currentDate) throws LibraryException {
 			Book book = library.getBookByID(bookId);
 			Patron patron = library.getPatronByID(patronId);
 			
@@ -26,11 +25,10 @@ public class BorrowBook implements Command{
 			patron.borrowBook(book, dueDate);
 			
 			System.out.println(book.getTitle() + " has been borrowed. Return date: " + dueDate);
-		} catch (LibraryException e) {
-			System.out.println("Error: "+ e.getMessage());
-		}
+		
 	}
 	
+	@Override
 	public boolean altersData() {
     	return true;
     }

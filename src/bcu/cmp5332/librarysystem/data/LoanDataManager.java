@@ -83,7 +83,7 @@ public class LoanDataManager implements DataManager {
             		  out.println();
             	  	}
         	    }
-            }
+          }
             	 List <Loan> oldLoans = patron.getLoanHistory();
             	 for(Loan loan : oldLoans) {
             		 out.print(loan.getPatron().getId() + SEPARATOR);

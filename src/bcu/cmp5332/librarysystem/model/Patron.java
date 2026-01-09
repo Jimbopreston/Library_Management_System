@@ -72,7 +72,7 @@ public class Patron {
 	}
 
     public void borrowBook(Book book, LocalDate dueDate) throws LibraryException {
-	    if(this.getBooks().size() <= this.getBookLimit()) {
+	    if(this.getBooks().size() < this.getBookLimit()) {
 		    if (book.isOnLoan()) {
 		    	throw new LibraryException("Cannot borrow a book that is already being borrowed");
 		    }else {
