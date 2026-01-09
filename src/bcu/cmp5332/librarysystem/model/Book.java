@@ -10,7 +10,7 @@ public class Book {
     private String author;
     private String publicationYear;
     private String publisher;
-    private boolean deletedStatus;
+    private boolean deletedStatus; 
     private Loan loan;
 
     public Book(int id, String title, String author, String publicationYear, String publisher) {

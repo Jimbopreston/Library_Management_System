@@ -29,13 +29,28 @@ public class LoanDataManager implements DataManager {
                       int bookID = Integer.parseInt(properties[1]);
                       LocalDate startDate = LocalDate.parse(properties[2]);
                       LocalDate dueDate = LocalDate.parse(properties[3]);
-                      
-                      Patron patron = library.getPatronByID(patronID);
-                      Book book = library.getBookByID(bookID);
-                      Loan loan = new Loan(patron,book,startDate,dueDate);
-                      book.setLoan(loan);
-                      patron.addBook(book);
-                    
+                      Boolean loanTerminated = Boolean.parseBoolean(properties[4]);
+                      LocalDate returnDate = null;
+                      if (!properties[5].isEmpty()) {
+                          returnDate = LocalDate.parse(properties[5]);
+                      }
+
+                      if (!loanTerminated) {
+                          // active loan
+                          Patron patron = library.getPatronByID(patronID);
+                          Book book = library.getBookByID(bookID);
+                          Loan loan = new Loan(patron, book, startDate, dueDate);
+                          book.setLoan(loan);
+                          patron.addBook(book);
+                      } else {
+                          // loan history
+                          Patron patron = library.getPatronByID(patronID);
+                          Book book = library.getBookByID(bookID);
+                          Loan oldLoan = new Loan(patron, book, startDate, dueDate);
+                          oldLoan.setLoanTerminatedTrue();
+                          oldLoan.setReturnDate(returnDate);
+                          patron.addLoanToLH(oldLoan);
+                      }
                    
                   } catch (NumberFormatException ex) {
                       throw new LibraryException("Unable to parse patron id " + properties[0] + " on line " + line_idx
@@ -53,16 +68,34 @@ public class LoanDataManager implements DataManager {
             	  List<Book> books = patron.getBooks();
             	  if(books.size() == 0) {
             		  System.out.println();
-            	  }else {            		  
+            	  }else {
             	  for(Book book : books) {
             		  out.print(patron.getId() + SEPARATOR);
             		  out.print(book.getId() + SEPARATOR);
-            		  Loan loan = book.getLoan();
+            		  Loan loan = book.getLoan(); //null after movingbook to loan history
             		  out.print(loan.getStartDate() + SEPARATOR);
             		  out.print(loan.getDueDate() + SEPARATOR);
+            		  out.print(loan.getLoanTerminated() + SEPARATOR);
+            		  if (loan.getLoanTerminated()) {
+            			    out.print(loan.getReturnDate() + SEPARATOR);
+            			} else {
+            			    out.print("" + SEPARATOR); 
             		  out.println();
             	  	}
         	    }
+          }
+            	 List <Loan> oldLoans = patron.getLoanHistory();
+            	 for(Loan loan : oldLoans) {
+            		 out.print(loan.getPatron().getId() + SEPARATOR);
+            		 out.print(loan.getBook().getId() + SEPARATOR);
+            		 out.print(loan.getStartDate() + SEPARATOR);
+            		 out.print(loan.getDueDate() + SEPARATOR);
+            		 out.print(loan.getLoanTerminated() + SEPARATOR);
+            		 out.print(loan.getReturnDate() + SEPARATOR);
+            		 out.println();
+            		 
+            	 
+            	 }
             }
         }
     } 

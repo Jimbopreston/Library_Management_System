@@ -16,6 +16,7 @@ public interface Command {
             + "\tdeletepatron                    delete a patron\n"
             + "\tshowbook                        show book details\n"
             + "\tshowpatron                      show patron details\n"
+            + "\tshowloanhistory                 show a patrons loan history\n"
             + "\tborrow                          borrow a book\n"
             + "\trenew                           renew a book\n"
             + "\treturn                          return a book\n"
