@@ -1,4 +1,4 @@
-package bcu.m8librarysystem.data;
+package bcu.m8.librarysystem.data;
 
 import bcu.m8.librarysystem.main.LibraryException;
 import bcu.m8.librarysystem.model.Library;
