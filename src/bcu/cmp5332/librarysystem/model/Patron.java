@@ -7,22 +7,23 @@ import java.util.List;
 
 public class Patron {
     
-    private int id;
-    private String name;
-    private String phone;
-    private String email;
-    private boolean deletedStatus;
-    private int bookLimit = 2;
-    private final List<Book> books = new ArrayList<>();
-    private final List<Loan> loanHistory = new ArrayList<>();
+    private int id; //patronId used in various classes
+    private String name; //patron name
+    private String phone; //patron phone number
+    private String email; //patron email address
+    private boolean deletedStatus; //deletedstatus flag tells system if the patron should be softdeleted from the system
+    private int bookLimit = 2; //book limit can be altered to control how many books a patron can have on loan
+    private final List<Book> books = new ArrayList<>(); //list of books a patron currently has
+    private final List<Loan> loanHistory = new ArrayList<>(); //list of previous loans of the patron
     
-    public Patron(int id, String name, String phone, String email) {
+    public Patron(int id, String name, String phone, String email) { //constructor for the patron using some of the above fields
     	this.id = id;
     	this.name = name;
     	this.phone = phone;   
     	this.email = email;
     }
     
+    //getters and setters of the patron class
     public int getId() {
 		return id;
 	}
@@ -46,47 +47,63 @@ public class Patron {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	
+	/**
+	 * Gets the patrons email address.
+	 * @return the email of the patron as a string.
+	 */
 	public String getEmail() {
 		return email;
 	}
-	
+	/**
+	 * sets the email address of the patron.
+	 * @param the string will be set as the patrons email.
+	 */
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
-	public List<Book> getBooks() {
+	public List<Book> getBooks() { //returns the list of books. used in datamanager to store info in .txt files 
 		return books;
 	}
-	
-	public List<Loan> getLoanHistory(){
+	/**
+	 * a list of all the loans a patron has had including the book start date due date and the return date.
+	 * @return a list of the patrons loan history.
+	 */
+	public List<Loan> getLoanHistory(){ //used in the showloanhistory command and shows the patrons previous loans
 		return loanHistory;
 	}
-	
-	public boolean getDeletedStatus() {
+	/**
+	 * returns the boolean value of the deletedstatus of a patron.
+	 * @return the boolean value of deletedStatus.
+	 */
+	public boolean getDeletedStatus() { //deletedstatus flag to tell system whether patron should be softdeleted or not
 		return deletedStatus;
 	}
-	
-	public int getBookLimit() {
+	/**
+	 * returns the booklimit of a patron as an int.
+	 * @return int value of bookLimit field.
+	 */
+	public int getBookLimit() { //returns the value of book limit used to check the limit against current amoount of books to prevent patrons loaning too many books
 		return bookLimit;
 	}
-
-    public void borrowBook(Book book, LocalDate dueDate) throws LibraryException {
-	    if(this.getBooks().size() < this.getBookLimit()) {
-		    if (book.isOnLoan()) {
+	
+	
+    public void borrowBook(Book book, LocalDate dueDate) throws LibraryException { //borrow book method. creates a loan and puts the book in the books list aswell as sets the loan of the book object
+	    if(this.getBooks().size() < this.getBookLimit()) { //book limit being used
+		    if (book.isOnLoan()) { //checks if book is already on loan.
 		    	throw new LibraryException("Cannot borrow a book that is already being borrowed");
 		    }else {
-		    	LocalDate startDate = LocalDate.now();
+		    	LocalDate startDate = LocalDate.now(); //localDate.now() gets the current date for start date of loan
 		    	Loan loan = new Loan(this, book, startDate, dueDate);
 		    	book.setLoan(loan);
 		    	this.addBook(book);
 		    }
 	    }else {
-	    	throw new LibraryException("Cannot borrow anymore books");
+	    	throw new LibraryException("Cannot borrow anymore books"); //throws library exception if patron is at loan limit
 	    }
     }
 
-	public void renewBook(Book book, LocalDate dueDate) throws LibraryException {
+	public void renewBook(Book book, LocalDate dueDate) throws LibraryException { //used to renew the loan by a week
         // TODO: implementation here
 		if(book.isOnLoan()==false) {
 			throw new LibraryException("Cannot renew a book that is not being loaned");
@@ -95,7 +112,7 @@ public class Patron {
 		}
     }
 
-    public void returnBook(Book book) throws LibraryException {
+    public void returnBook(Book book) throws LibraryException { //returns the book to the library and adds the loan to the loan history
         
     	if (!book.isOnLoan()) {
     		throw new LibraryException("Cannot return a book that isnt on loan");
@@ -107,24 +124,25 @@ public class Patron {
     	this.addLoanToLH(oldLoan);
     	books.remove(book);
     	book.returnToLibrary();
-    	
-    	//localdate returndate = current.now
-    	//book.getloan
-    	//loan.setreturndate()
-    	//loan.setterminatedflag true
-    	//add loan to loan history
     	}
     }
     
-    public void addBook(Book book) {
+    public void addBook(Book book) { //adds book to books list of patron
     	books.add(book);
     }
-    
-    public void addLoanToLH(Loan loan) {
+    /** 
+     * Adds a loan object to the patrons loan history list.
+     * @param loan object from the patrons previous loan.
+     */
+    public void addLoanToLH(Loan loan) { //adds a loan to the loan history
     	loanHistory.add(loan);
     }
     
-    public boolean softDeletePatron() {
+    /**
+     * soft deletes the patron from the system, doesnt delete them from patron.txt.
+     * @return sets the deletedstatus boolean to true.
+     */
+    public boolean softDeletePatron() { //softdeletes the patron from the system not the .txt file
     	return this.deletedStatus = true;
     }
 }

@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 public class BorrowBook implements Command{
 	private int patronId;
-	private int bookId;
+	private int bookId; //borrowbook command requires both book and patron ids to create a loan
 	
 	public BorrowBook(int patronId, int bookId) {
 		this.patronId = patronId;
@@ -20,14 +20,16 @@ public class BorrowBook implements Command{
 			Patron patron = library.getPatronByID(patronId);
 			
 			int loanPeriod = library.getLoanPeriod();
-			LocalDate dueDate = currentDate.plusDays(loanPeriod);
+			LocalDate dueDate = currentDate.plusDays(loanPeriod); //used to get the due date for the loan by adding loan period(7days) onto the current date
 			
-			patron.borrowBook(book, dueDate);
+			patron.borrowBook(book, dueDate); //runs borrowbook method
 			
-			System.out.println(book.getTitle() + " has been borrowed. Return date: " + dueDate);
+			System.out.println(book.getTitle() + " has been borrowed. Return date: " + dueDate); //success message
 		
 	}
-	
+	/**
+	 * sets the altersdata flag to true because this method adds a loan to the loan.txt file.
+	 */
 	@Override
 	public boolean altersData() {
     	return true;

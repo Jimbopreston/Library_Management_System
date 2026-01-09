@@ -25,17 +25,26 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.JComboBox;
 
+/**
+ * 
+ */
 public class RenewBookWindow extends JFrame implements ActionListener {
 	private MainWindow mw;
     private JButton renewBtn = new JButton("Renew");
     private JButton cancelBtn = new JButton("Cancel");
     private JComboBox<String> bookCombo = new JComboBox<>();
 
+    /**
+     * 
+     */
     public RenewBookWindow(MainWindow mw) {
         this.mw = mw;
         initialize();
     }
     
+    /**
+     * 
+     */
     private void initialize() {
     	try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -88,6 +97,9 @@ public class RenewBookWindow extends JFrame implements ActionListener {
     	
     }
     
+    /**
+     * 
+     */
     @Override
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == renewBtn) {
@@ -97,6 +109,9 @@ public class RenewBookWindow extends JFrame implements ActionListener {
         }
     }
     
+    /**
+     * 
+     */
     private void renewBook() {
     	try {
     		//gets whatever box is selected as a string

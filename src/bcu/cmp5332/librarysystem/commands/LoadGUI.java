@@ -9,9 +9,11 @@ public class LoadGUI implements Command {
 
     @Override
     public void execute(Library library, LocalDate currentDate) throws LibraryException {
-        new MainWindow(library);
+        new MainWindow(library); //generates a new window object which contains all the gui features
     }
-    
+    /**
+     * altersdata flag set to false because method makes no changes to any .txt file.
+     */
     public boolean altersData() {
     	return false;
     }

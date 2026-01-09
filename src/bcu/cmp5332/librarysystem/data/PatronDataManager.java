@@ -12,33 +12,33 @@ import java.util.Scanner;
 
 public class PatronDataManager implements DataManager {
 
-    private final String RESOURCE = "./resources/data/patrons.txt";
+    private final String RESOURCE = "./resources/data/patrons.txt"; //locates the .txt file
     
     @Override
     public void loadData(Library library) throws IOException, LibraryException {
-    	  try (Scanner sc = new Scanner(new File(RESOURCE))) {
-              int line_idx = 1;
-              while (sc.hasNextLine()) {
+    	  try (Scanner sc = new Scanner(new File(RESOURCE))) { //reads the .txt file
+              int line_idx = 1;//starts at line 1
+              while (sc.hasNextLine()) {//while line has information
                   String line = sc.nextLine();
-                  String[] properties = line.split(SEPARATOR, -1);
+                  String[] properties = line.split(SEPARATOR, -1); //separates the information and removes dividers
                   try {
                       int id = Integer.parseInt(properties[0]);
-                      String name = properties[1];
+                      String name = properties[1]; //next the name and then the other details
                       String phone = properties[2];
                       String email = properties[3];
-                      boolean isDeleted = Boolean.parseBoolean(properties[4]);
-                      Patron patron = new Patron(id, name, phone, email);
+                      boolean isDeleted = Boolean.parseBoolean(properties[4]); //to check if patron is meant to be softdeleted
+                      Patron patron = new Patron(id, name, phone, email); //creates patron object
                       
-                      if (isDeleted) {
-                      	patron.softDeletePatron();
+                      if (isDeleted) { //if is true
+                      	patron.softDeletePatron(); //soft deletes the patron
                       }
                       
-                      library.addPatron(patron);
-                  } catch (NumberFormatException ex) {
+                      library.addPatron(patron); //adds patron to the library
+                  } catch (NumberFormatException ex) { //catches errors to do with file
                       throw new LibraryException("Unable to parse patron id " + properties[0] + " on line " + line_idx
-                          + "\nError: " + ex);
+                          + "\nError: " + ex); //if cant parse a line displays which line it cant 
                   }
-                  line_idx++;
+                  line_idx++; //goes to the next line
               }
           }
     }

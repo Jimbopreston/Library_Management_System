@@ -15,18 +15,26 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import javax.swing.*;
-
+/**
+ * 
+ */
 public class DeleteBookWindow extends JFrame implements ActionListener {
 	private MainWindow mw;
     private JButton deleteBtn = new JButton("Delete");
     private JButton cancelBtn = new JButton("Cancel");
     private JComboBox<String> bookCombo = new JComboBox<>();
 
+    /**
+     * 
+     */
     public DeleteBookWindow(MainWindow mw) {
         this.mw = mw;
         initialize();
     }
     
+    /**
+     * 
+     */
     private void initialize() {
     	try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -77,6 +85,9 @@ public class DeleteBookWindow extends JFrame implements ActionListener {
         }
     }
     
+    /**
+     * 
+     */
     @Override
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == deleteBtn) {
@@ -87,6 +98,9 @@ public class DeleteBookWindow extends JFrame implements ActionListener {
 	
     }
     
+    /**
+     * 
+     */
     private void deleteBook() {
     	try {
     		//gets whatever box is selected as a string

@@ -5,7 +5,7 @@ package bcu.cmp5332.librarysystem.main;
  * that is used to notify the user about errors or invalid commands.
  * 
  */
-public class LibraryException extends Exception {
+public class LibraryException extends Exception { //as above
 
     public LibraryException(String message) {
         super(message);
