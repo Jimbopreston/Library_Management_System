@@ -26,14 +26,11 @@ public class BookDataManager implements DataManager {
                     String author = properties[2];
                     String publicationYear = properties[3];
                     String publisher = properties[4];
+                    boolean isDeleted = Boolean.parseBoolean(properties[5]);
                     Book book = new Book(id, title, author, publicationYear, publisher);
                     
-                    //softdelete flag
-                    if (properties.length > 5) {
-                    	boolean isDeleted = Boolean.parseBoolean(properties[5]);
-                    	if (isDeleted) {
-                    		book.softDeleteBook();
-                    	}
+                    if (isDeleted) {
+                    	book.softDeleteBook();
                     }
                     
                     library.addBook(book);

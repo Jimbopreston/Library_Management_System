@@ -74,6 +74,8 @@ public class IssueBookWindow extends JFrame implements ActionListener {
         //pulls the data from the library to fill the lists.
         List<Patron> patrons = mw.getLibrary().getPatrons();
         List<Book> books = mw.getLibrary().getActiveBooks();
+        //tracks if a issueable book has been found
+        boolean booksFound = false;
         
         //fills the patron combo
         for (Patron p : patrons) {
@@ -84,7 +86,14 @@ public class IssueBookWindow extends JFrame implements ActionListener {
         for (Book b : books) {
         	if (!b.isOnLoan()) {
         		bookCombo.addItem(b.getId() + " - " + b.getTitle());
+        		booksFound = true;
         		}
+        	}
+        
+        //if booksFound is false, stops the combo and buttons from working.
+        	if (!booksFound) {
+        		bookCombo.addItem("There are no more books that can be issued");
+        		bookCombo.setEnabled(false);
         	}
     	}
 	
