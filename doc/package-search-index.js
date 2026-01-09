@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"bcu.m8.librarysystem.commands"},{"l":"bcu.m8.librarysystem.data"},{"l":"bcu.m8.librarysystem.gui"},{"l":"bcu.m8.librarysystem.main"},{"l":"bcu.m8.librarysystem.model"}];updateSearchResults();
