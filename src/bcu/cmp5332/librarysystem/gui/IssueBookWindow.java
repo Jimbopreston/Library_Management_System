@@ -72,7 +72,7 @@ public class IssueBookWindow extends JFrame implements ActionListener {
         setVisible(true);
         
         //pulls the data from the library to fill the lists.
-        List<Patron> patrons = mw.getLibrary().getPatrons();
+        List<Patron> patrons = mw.getLibrary().getActivePatrons();
         List<Book> books = mw.getLibrary().getActiveBooks();
         //tracks if a issueable book has been found
         boolean booksFound = false;
@@ -145,6 +145,9 @@ public class IssueBookWindow extends JFrame implements ActionListener {
                 
                 //refreshes the displayBooks window
                 mw.displayBooks();
+                
+                //confirms
+                JOptionPane.showMessageDialog(this, "Book issued successfully.");
                 
                 //closes the window
                 this.setVisible(false);
