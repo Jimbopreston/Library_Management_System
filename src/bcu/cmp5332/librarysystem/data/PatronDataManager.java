@@ -26,14 +26,11 @@ public class PatronDataManager implements DataManager {
                       String name = properties[1];
                       String phone = properties[2];
                       String email = properties[3];
+                      boolean isDeleted = Boolean.parseBoolean(properties[4]);
                       Patron patron = new Patron(id, name, phone, email);
                       
-                      //softdelete flag
-                      if (properties.length > 4) {
-                          boolean isDeleted = Boolean.parseBoolean(properties[4]);
-                          if (isDeleted) {
-                              patron.softDeletePatron();
-                          }
+                      if (isDeleted) {
+                      	patron.softDeletePatron();
                       }
                       
                       library.addPatron(patron);
