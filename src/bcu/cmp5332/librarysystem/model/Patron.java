@@ -14,6 +14,7 @@ public class Patron {
     private boolean deletedStatus;
     private int bookLimit = 2;
     private final List<Book> books = new ArrayList<>();
+    private final List<Loan> loanHistory = new ArrayList<>();
     
     public Patron(int id, String name, String phone, String email) {
     	this.id = id;
@@ -58,6 +59,10 @@ public class Patron {
 		return books;
 	}
 	
+	public List<Loan> getLoanHistory(){
+		return loanHistory;
+	}
+	
 	public boolean getDeletedStatus() {
 		return deletedStatus;
 	}
@@ -95,14 +100,28 @@ public class Patron {
     	if (!book.isOnLoan()) {
     		throw new LibraryException("Cannot return a book that isnt on loan");
     	}else {
-    		
+    	Loan oldLoan = book.getLoan();
+    	LocalDate returnDate = LocalDate.now();
+    	oldLoan.setReturnDate(returnDate);
+    	oldLoan.setLoanTerminatedTrue();
+    	this.addLoanToLH(oldLoan);
     	books.remove(book);
     	book.returnToLibrary();
+    	
+    	//localdate returndate = current.now
+    	//book.getloan
+    	//loan.setreturndate()
+    	//loan.setterminatedflag true
+    	//add loan to loan history
     	}
     }
     
     public void addBook(Book book) {
     	books.add(book);
+    }
+    
+    public void addLoanToLH(Loan loan) {
+    	loanHistory.add(loan);
     }
     
     public boolean softDeletePatron() {
