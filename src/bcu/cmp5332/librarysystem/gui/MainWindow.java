@@ -143,9 +143,11 @@ public class MainWindow extends JFrame implements ActionListener {
             new AddBookWindow(this);
             
         } else if (ae.getSource() == booksDel) {
-            
+        	displayBooks();
+            new DeleteBookWindow(this);
             
         } else if (ae.getSource() == booksIssue) {
+        	displayBooks();
             new IssueBookWindow(this);
             
         } else if (ae.getSource() == booksReturn) {
@@ -155,14 +157,17 @@ public class MainWindow extends JFrame implements ActionListener {
             displayPatrons();
             
         } else if (ae.getSource() == memAdd) {
+        	displayPatrons();
             new AddPatronWindow(this);
             
         } else if (ae.getSource() == memDel) {
-            
+        	displayPatrons();
+            new DeletePatronWindow(this);
             
         }
     }
-
+    
+    //task 6.1
     //method to show the loan details (used in displayBooks when a book is clicked in GUI)
     private void showLoanDetails(int bookId) {
         try {
@@ -194,6 +199,7 @@ public class MainWindow extends JFrame implements ActionListener {
         }
     }
     
+    //task 6.3
     //method to show the details of books a patron has borrowed (used in displayPatrons when a patron is clicked in GUI)
     private void showPatronDetails(int patronId) {
     	try {
@@ -219,7 +225,7 @@ public class MainWindow extends JFrame implements ActionListener {
     }
 
     public void displayBooks() {
-        List<Book> booksList = library.getBooks();
+        List<Book> booksList = library.getActiveBooks();
         // headers for the table
         // added book ID to be stored in column 0
         String[] columns = new String[]{"ID", "Title", "Author", "Pub Date", "Status"};
@@ -236,6 +242,7 @@ public class MainWindow extends JFrame implements ActionListener {
 
         JTable table = new JTable(data, columns);
         
+        //Task 6.1
         //detects clicks
         table.addMouseListener(new MouseAdapter() {
             @Override
@@ -260,7 +267,7 @@ public class MainWindow extends JFrame implements ActionListener {
     }
     
     public void displayPatrons() {
-        List<Patron> patronList = library.getPatrons();
+        List<Patron> patronList = library.getActivePatrons();
         // headers for the table
         // added book ID to be stored in column 0
         String[] columns = new String[]{"ID", "Name", "Phone", "Email", "Books on loan"};
@@ -277,6 +284,7 @@ public class MainWindow extends JFrame implements ActionListener {
 
         JTable table = new JTable(data, columns);
         
+        //task 6.3
         table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
@@ -298,5 +306,6 @@ public class MainWindow extends JFrame implements ActionListener {
         this.revalidate();
         this.repaint();
     }
+ 
     
 }

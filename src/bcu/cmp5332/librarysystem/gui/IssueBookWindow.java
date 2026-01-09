@@ -48,7 +48,7 @@ public class IssueBookWindow extends JFrame implements ActionListener {
 		
 		setTitle("Issue a book");
 		
-		setSize(350,200);
+		setSize(300,200);
 		JPanel topPanel = new JPanel();
         topPanel.setLayout(new GridLayout(2, 2));
         topPanel.add(new JLabel("Select Patron : "));
@@ -73,7 +73,7 @@ public class IssueBookWindow extends JFrame implements ActionListener {
         
         //pulls the data from the library to fill the lists.
         List<Patron> patrons = mw.getLibrary().getPatrons();
-        List<Book> books = mw.getLibrary().getBooks();
+        List<Book> books = mw.getLibrary().getActiveBooks();
         
         //fills the patron combo
         for (Patron p : patrons) {
