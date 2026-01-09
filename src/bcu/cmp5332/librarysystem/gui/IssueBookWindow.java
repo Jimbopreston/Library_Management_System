@@ -25,6 +25,9 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.JComboBox;
 
+/**
+ * 
+ */
 public class IssueBookWindow extends JFrame implements ActionListener {
 	private MainWindow mw;
 	private JButton issueBtn = new JButton("Issue");
@@ -34,11 +37,17 @@ public class IssueBookWindow extends JFrame implements ActionListener {
 	private JComboBox<String> patronCombo = new JComboBox<>();
 	private JComboBox<String> bookCombo = new JComboBox<>();
 	
+	/**
+	 * 
+	 */
 	public IssueBookWindow(MainWindow mw) {
 		this.mw = mw;
 		initialize();
 	}
 	
+	/**
+	 * 
+	 */
 	private void initialize() {
 		try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -97,7 +106,9 @@ public class IssueBookWindow extends JFrame implements ActionListener {
         	}
     	}
 	
-        
+		/**
+		 * 
+		 */
         @Override
         public void actionPerformed(ActionEvent ae) {
             if (ae.getSource() == issueBtn) {
@@ -108,6 +119,9 @@ public class IssueBookWindow extends JFrame implements ActionListener {
 		
         }
         
+        /**
+         * 
+         */
         private void issueBook() {
         	try {
         		//gets whatever box is selected as a string

@@ -8,34 +8,36 @@ import bcu.cmp5332.librarysystem.model.Library;
 import java.util.*;
 
 public class ShowPatron implements Command {
-	private final int patronId;
+	private final int patronId; //command uses patron id
 	
 	public ShowPatron(int patronId) {
-		this.patronId = patronId;
+		this.patronId = patronId; //constructor
 	}
 
 	@Override
 	public void execute(Library library, LocalDate currentDate) throws LibraryException {
 		// TODO Auto-generated method stub
-		Patron patron = library.getPatronByID(patronId);
-		if(patron.getDeletedStatus() == false) {
-			System.out.println(patron.getId());
-			System.out.println(patron.getName());
-			System.out.println(patron.getPhone());
-			System.out.println(patron.getEmail());
+		Patron patron = library.getPatronByID(patronId); //generation of the patron object
+		if(patron.getDeletedStatus() == false) { //checks the patron isnt soft deleted 
+			System.out.println("Patron ID: " + patron.getId()); //prints the patrons details
+			System.out.println("Patron Name: " + patron.getName());
+			System.out.println("Patron Phone Number: " + patron.getPhone());
+			System.out.println("Patron Email: " + patron.getEmail());
 			List<Book> books = patron.getBooks();
-			if(books.size()>0) {
-				for (Book book :books) {
-					System.out.println(book.getTitle());
+			if(books.size()>0) { //checks the book list size if greater than 0 runs code below
+				for (Book book :books) { //iterates through the books list 
+					System.out.println("Book Title: " + book.getTitle()); //prints each books title
 				}
-				System.out.println(books.size());
+				System.out.println("Total amount of books loaned: " + books.size()); //prints the total amount of books on loan
 			}
 			
 			}else {
-				System.out.println("Cannot find patron you are looking for");
+				System.out.println("Cannot find patron you are looking for");//cant find patron if soft deleted
 		}
 	}
-	
+	/**
+	 * alterdata flag set to false as showpatron does not alter .txt files.
+	 */
 	public boolean altersData() {
     	return false;
     }

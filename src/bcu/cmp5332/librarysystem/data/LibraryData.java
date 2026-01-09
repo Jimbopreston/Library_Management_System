@@ -13,7 +13,7 @@ public class LibraryData {
     
     // runs only once when the object gets loaded to memory
     static {
-        dataManagers.add(new BookDataManager());
+        dataManagers.add(new BookDataManager()); //when the library data object is loaded the .txt files are loaded by adding their specific datamanagers
         dataManagers.add(new PatronDataManager());
         dataManagers.add(new LoanDataManager());
     }
@@ -22,7 +22,7 @@ public class LibraryData {
 
         Library library = new Library();
         for (DataManager dm : dataManagers) {
-            dm.loadData(library);
+            dm.loadData(library); //loads the data into the library object and returns the library for use
         }
         return library;
     }
@@ -30,7 +30,7 @@ public class LibraryData {
     public static void store(Library library) throws IOException {
 
         for (DataManager dm : dataManagers) {
-            dm.storeData(library);
+            dm.storeData(library); //stores the data into the library object and thus the .txt objects
         }
     }
     

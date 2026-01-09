@@ -20,7 +20,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
-
+/**
+ * 
+ */
 public class AddPatronWindow extends JFrame implements ActionListener {
 	
 	private MainWindow mw;
@@ -76,6 +78,9 @@ public class AddPatronWindow extends JFrame implements ActionListener {
 
     }
     
+    /**
+     * 
+     */
     @Override
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == addBtn) {
@@ -85,6 +90,9 @@ public class AddPatronWindow extends JFrame implements ActionListener {
         }
     }
     
+    /**
+     * 
+     */
     private void addPatron() {
         try {
             String name = nameText.getText();

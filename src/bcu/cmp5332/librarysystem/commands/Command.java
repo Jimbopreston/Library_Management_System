@@ -5,9 +5,13 @@ import bcu.cmp5332.librarysystem.model.Library;
 
 import java.time.LocalDate;
 
-public interface Command {
+public interface Command { //command is an interface which when implemented by other classes defines the methods those classes must use.
+	//this is useful as it acts like a blueprint/guideline for different classes, they all act a similar way due to this and can all use the same 
+	//interface improves readability of code for people and makes code easier to test and change.
+	//keeps things consistent they are best used when you will need to do something multiple times such as the commands implemented here
+	// interface is a form of polymorphism
 
-    public static final String HELP_MESSAGE = "Commands:\n"
+    public static final String HELP_MESSAGE = "Commands:\n"                         //list of different commands the user can input
             + "\tlistbooks                       print all books*\n"
             + "\tlistpatrons                     print all patrons\n"
             + "\taddbook                         add a new book*\n"
@@ -27,6 +31,10 @@ public interface Command {
     
     public void execute(Library library, LocalDate currentDate) throws LibraryException;
     
+    /**
+     * a boolean flag for if a particular command alters data in the .txt files.
+     * @return a boolean true or false.
+     */
     public boolean altersData();
     
 }
