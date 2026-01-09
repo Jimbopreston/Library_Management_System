@@ -1,5 +1,7 @@
 package bcu.cmp5332.librarysystem.gui;
 
+import bcu.cmp5332.librarysystem.commands.Command;
+import bcu.cmp5332.librarysystem.commands.DeleteBook;
 import bcu.cmp5332.librarysystem.commands.DeletePatron;
 import bcu.cmp5332.librarysystem.data.LibraryData;
 import bcu.cmp5332.librarysystem.main.LibraryException;
@@ -99,8 +101,9 @@ public class DeletePatronWindow extends JFrame implements ActionListener {
     		//gets the ID from the string
             int patronId = Integer.parseInt(selection.split(" - ")[0]);
             
-            //Deletes the book
-            new DeletePatron(patronId).execute(mw.getLibrary(), LocalDate.now());
+            //Deletes the patron
+            Command deletePatronCmd = new DeletePatron(patronId);
+            deletePatronCmd.execute(mw.getLibrary(), LocalDate.now());
             
             //lets the GUI save to the text files.
             try {

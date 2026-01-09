@@ -1,6 +1,6 @@
 package bcu.cmp5332.librarysystem.gui;
 
-import bcu.cmp5332.librarysystem.commands.ReturnBook;
+import bcu.cmp5332.librarysystem.commands.RenewBook;
 import bcu.cmp5332.librarysystem.commands.Command;
 import bcu.cmp5332.librarysystem.data.LibraryData;
 import bcu.cmp5332.librarysystem.main.LibraryException;
@@ -25,15 +25,13 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.JComboBox;
 
-public class ReturnBookWindow extends JFrame implements ActionListener{
+public class RenewBookWindow extends JFrame implements ActionListener {
 	private MainWindow mw;
-    private JButton returnBtn = new JButton("Return");
+    private JButton renewBtn = new JButton("Renew");
     private JButton cancelBtn = new JButton("Cancel");
-    
-    //combo box displays dropdown lists.
     private JComboBox<String> bookCombo = new JComboBox<>();
 
-    public ReturnBookWindow(MainWindow mw) {
+    public RenewBookWindow(MainWindow mw) {
         this.mw = mw;
         initialize();
     }
@@ -44,22 +42,22 @@ public class ReturnBookWindow extends JFrame implements ActionListener{
         } catch (Exception ex) {
 
         } 
-		setTitle("Return a book");
-		
-		setSize(700,200);
+    	setTitle("Renew a Book");
+    	
+    	setSize(700,200);
 		JPanel topPanel = new JPanel();
 		//borderlayout means there's more space for the box
         topPanel.setLayout(new BorderLayout(10, 0));
-        topPanel.add(new JLabel("Select Book to return: "), BorderLayout.WEST);
+        topPanel.add(new JLabel("Select Book to renew: "), BorderLayout.WEST);
         topPanel.add(bookCombo);
 
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new GridLayout(1, 3));
         bottomPanel.add(new JLabel("     "));
-        bottomPanel.add(returnBtn);
+        bottomPanel.add(renewBtn);
         bottomPanel.add(cancelBtn);
 
-        returnBtn.addActionListener(this);
+        renewBtn.addActionListener(this);
         cancelBtn.addActionListener(this);
 
         this.getContentPane().add(topPanel, BorderLayout.CENTER);
@@ -77,7 +75,7 @@ public class ReturnBookWindow extends JFrame implements ActionListener{
         for (Book b : books) {
             if (b.isOnLoan()) {
                 Patron p = b.getLoan().getPatron();
-                bookCombo.addItem(b.getId() + " - " + b.getTitle() + " (Borrowed by: " + p.getName() + ")");
+                bookCombo.addItem(b.getId() + " - " + b.getTitle() + " (Due: " + b.getDueDate() + ")");
                 booksFound = true;
             }
         }
@@ -85,21 +83,21 @@ public class ReturnBookWindow extends JFrame implements ActionListener{
         if (!booksFound) {
             bookCombo.addItem("No books are currently loaned out");
             bookCombo.setEnabled(false);
-            returnBtn.setEnabled(false);
+            renewBtn.setEnabled(false);
         }
-    	 	
+    	
     }
     
     @Override
     public void actionPerformed(ActionEvent ae) {
-        if (ae.getSource() == returnBtn) {
-            returnBook();
+        if (ae.getSource() == renewBtn) {
+            renewBook();
         } else if (ae.getSource() == cancelBtn) {
             this.setVisible(false);
         }
     }
     
-    private void returnBook() {
+    private void renewBook() {
     	try {
     		//gets whatever box is selected as a string
     		String selection = (String) bookCombo.getSelectedItem();
@@ -116,9 +114,8 @@ public class ReturnBookWindow extends JFrame implements ActionListener{
     		Book b = mw.getLibrary().getBookByID(bookId);
             int patronId = b.getLoan().getPatron().getId();
             
-            //creates and executes the return book command
-            Command returnCmd = new ReturnBook(patronId, bookId);
-            returnCmd.execute(mw.getLibrary(), LocalDate.now());
+            Command renewCmd = new RenewBook(patronId, bookId);
+            renewCmd.execute(mw.getLibrary(), LocalDate.now());
             
             //lets the GUI save to the text files.
             try {
@@ -138,12 +135,13 @@ public class ReturnBookWindow extends JFrame implements ActionListener{
             
             //refresh, confirm, close
             mw.displayBooks();
-            JOptionPane.showMessageDialog(this, "Book returned successfully.");
+            JOptionPane.showMessageDialog(this, "Book renewed successfully.");
             this.setVisible(false);
-    		
+            
     		} catch (LibraryException ex) {
     			JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     		}
     }
+    
 
 }

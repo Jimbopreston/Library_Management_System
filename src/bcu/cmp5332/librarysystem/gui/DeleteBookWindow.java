@@ -1,5 +1,6 @@
 package bcu.cmp5332.librarysystem.gui;
 
+import bcu.cmp5332.librarysystem.commands.Command;
 import bcu.cmp5332.librarysystem.commands.DeleteBook;
 import bcu.cmp5332.librarysystem.data.LibraryData;
 import bcu.cmp5332.librarysystem.main.LibraryException;
@@ -99,8 +100,9 @@ public class DeleteBookWindow extends JFrame implements ActionListener {
     		//gets the ID from the string
             int bookId = Integer.parseInt(selection.split(" - ")[0]);
             
-            //Deletes the book
-            new DeleteBook(bookId).execute(mw.getLibrary(), LocalDate.now());
+            //creates and executes the delete book command
+            Command deleteBookCmd = new DeleteBook(bookId);
+            deleteBookCmd.execute(mw.getLibrary(), LocalDate.now());
             
             //lets the GUI save to the text files.
             try {
