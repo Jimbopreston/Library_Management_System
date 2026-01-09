@@ -12,6 +12,7 @@ public class Patron {
     private String phone;
     private String email;
     private boolean deletedStatus;
+    private int bookLimit = 2;
     private final List<Book> books = new ArrayList<>();
     
     public Patron(int id, String name, String phone, String email) {
@@ -60,16 +61,24 @@ public class Patron {
 	public boolean getDeletedStatus() {
 		return deletedStatus;
 	}
+	
+	public int getBookLimit() {
+		return bookLimit;
+	}
 
     public void borrowBook(Book book, LocalDate dueDate) throws LibraryException {
-    if (book.isOnLoan()) {
-    	throw new LibraryException("Cannot borrow a book that is already being borrowed");
-    }else {
-    	LocalDate startDate = LocalDate.now();
-    	Loan loan = new Loan(this, book, startDate, dueDate);
-    	book.setLoan(loan);
-    	this.addBook(book);
-    }
+	    if(this.getBooks().size() <= this.getBookLimit()) {
+		    if (book.isOnLoan()) {
+		    	throw new LibraryException("Cannot borrow a book that is already being borrowed");
+		    }else {
+		    	LocalDate startDate = LocalDate.now();
+		    	Loan loan = new Loan(this, book, startDate, dueDate);
+		    	book.setLoan(loan);
+		    	this.addBook(book);
+		    }
+	    }else {
+	    	throw new LibraryException("Cannot borrow anymore books");
+	    }
     }
 
 	public void renewBook(Book book, LocalDate dueDate) throws LibraryException {

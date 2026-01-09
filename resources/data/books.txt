@@ -1,6 +1,6 @@
-15::Pride and Prejudice::Jane Austen::1813::Penguin Books::
-23::Nineteen Eighty-Four::George Orwell::1949::Penguin Books::
-42::The Hitchhiker's Guide to the Galaxy::Douglas Adams::1979::Pan Macmillan::
-43::The War of The Worlds::H.G. Wells::1898::HarperCollins::
-44::The Hunger Games::Suzanne Collins::2008::Scholastic::
-45::The Hunger Games: Catching Fire::Suzanne Collins::2009::Scholastic::
+15::Pride and Prejudice::Jane Austen::1813::Penguin Books::true::
+23::Nineteen Eighty-Four::George Orwell::1949::Penguin Books::false::
+42::The Hitchhiker's Guide to the Galaxy::Douglas Adams::1979::Pan Macmillan::false::
+43::The War of The Worlds::H.G. Wells::1898::HarperCollins::false::
+44::The Hunger Games::Suzanne Collins::2008::Scholastic::false::
+45::The Hunger Games: Catching Fire::Suzanne Collins::2009::Scholastic::false::
