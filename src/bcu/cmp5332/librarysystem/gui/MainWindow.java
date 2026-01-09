@@ -231,16 +231,17 @@ public class MainWindow extends JFrame implements ActionListener {
         List<Book> booksList = library.getActiveBooks();
         // headers for the table
         // added book ID to be stored in column 0
-        String[] columns = new String[]{"ID", "Title", "Author", "Pub Date", "Status"};
+        String[] columns = new String[]{"ID", "Title", "Author", "Pub Date", "Publisher", "Status"};
 
-        Object[][] data = new Object[booksList.size()][5];
+        Object[][] data = new Object[booksList.size()][6];
         for (int i = 0; i < booksList.size(); i++) {
             Book book = booksList.get(i);
             data[i][0] = book.getId();
             data[i][1] = book.getTitle();
             data[i][2] = book.getAuthor();
             data[i][3] = book.getPublicationYear();
-            data[i][4] = book.getStatus();
+            data[i][4] = book.getPublisher();
+            data[i][5] = book.getStatus();
         }
 
         JTable table = new JTable(data, columns);
