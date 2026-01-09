@@ -3,10 +3,10 @@ package bcu.m8.librarysystem.gui;
 import bcu.m8.librarysystem.commands.Command;
 import bcu.m8.librarysystem.commands.DeleteBook;
 import bcu.m8.librarysystem.commands.DeletePatron;
+import bcu.m8.librarysystem.data.LibraryData;
 import bcu.m8.librarysystem.main.LibraryException;
 import bcu.m8.librarysystem.model.Library;
 import bcu.m8.librarysystem.model.Patron;
-import bcu.m8librarysystem.data.LibraryData;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
