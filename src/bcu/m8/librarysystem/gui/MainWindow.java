@@ -19,6 +19,16 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.UIManager;
 
+/**
+ * The main application window for the Library Management system.
+ * 
+ * It is the main GUI window. It manages the menu bar, handles user actions in the menu,
+ * and displays tables for books and patrons.
+ * 
+ * It implements {@link ActionListener} to respond to menu interactions, and uses mouse
+ * listener for table row interactions.
+ */
+
 public class MainWindow extends JFrame implements ActionListener {
 
     private JMenuBar menuBar;
@@ -40,6 +50,11 @@ public class MainWindow extends JFrame implements ActionListener {
     private JMenuItem memDel;
 
     private Library library;
+    
+    /**
+     * Constructor for the MainWindow and uses {@link initialize} to initialize the GUI.
+     * @param library The central {@link Library} model containing all data.
+     */
 
     public MainWindow(Library library) {
 
@@ -47,9 +62,21 @@ public class MainWindow extends JFrame implements ActionListener {
         this.library = library;
     } 
     
+    /**
+     * Gets the current library model in the window.
+     * @return The {@link Library}.
+     */
+    
     public Library getLibrary() {
         return library;
     }
+    
+    /**
+     * Updates the library model in the window.
+     * 
+     * It is needed for the rollback of data if something goes wrong.
+     * @param library A rolledback {@link Library} object to replace the existing one.
+     */
     
     // Needed for the rollback. It tells the MainWindow to stop looking at the corrupted memory.
     public void setLibrary (Library library) {
@@ -135,6 +162,11 @@ public class MainWindow extends JFrame implements ActionListener {
 
 
 
+    /**
+     * Handles the button click events for menu items.
+     * Identifies the event and triggers accordingly.
+     * @param ae The {@link ActionEvent} triggered by clicking the menu items
+     */
     @Override
     public void actionPerformed(ActionEvent ae) {
 
@@ -176,6 +208,14 @@ public class MainWindow extends JFrame implements ActionListener {
         }
     }
     
+    
+    /**
+     * Displays the popup with the loan details.
+     * If a book is on loan, it displays the borrower's details and the due date.
+     * If it isn't on loan, it lets the user know it's available.
+     * 
+     * @param bookId The ID of the book to check.
+     */
     //task 6.1
     //method to show the loan details (used in displayBooks when a book is clicked in GUI)
     private void showLoanDetails(int bookId) {
@@ -209,6 +249,11 @@ public class MainWindow extends JFrame implements ActionListener {
         }
     }
     
+    /**
+     * Displays a popup with the details of books a patron is borrowing.
+     * @param patronId The ID of the patron to check.
+     */
+    
     //task 6.3
     //method to show the details of books a patron has borrowed (used in displayPatrons when a patron is clicked in GUI)
     private void showPatronBookDetails(int patronId) {
@@ -235,6 +280,13 @@ public class MainWindow extends JFrame implements ActionListener {
     		JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     	}
     }
+    
+    /**
+     * Refreshes the main view to display the list of active books.
+     * 
+     * It gets all the non-deleted books from the library, constructs a 2d array,
+     * and populates a {@link JTable}. It attaches {@link MouseAdapter} to handle click interactions.
+     */
 
     public void displayBooks() {
         List<Book> booksList = library.getActiveBooks();
@@ -278,6 +330,13 @@ public class MainWindow extends JFrame implements ActionListener {
         this.revalidate();
         this.repaint();
     }
+    
+    /**
+     * Refreshes the main view to display the list of active patrons.
+     * 
+     * It gets all the non-deleted patrons from the library, constructs a 2d array,
+     * and populates a {@link JTable}. It attaches {@link MouseAdapter} to handle click interactions.
+     */
     
     public void displayPatrons() {
         List<Patron> patronList = library.getActivePatrons();

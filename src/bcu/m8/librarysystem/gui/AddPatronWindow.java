@@ -21,7 +21,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 /**
+ * A GUI window that adds new patrons to the library.
  * 
+ * The AddPatronWindow class handles the user input for the patrons details, executes the {@link AddPatron} command,
+ * as well as ensuring data is updated and saved correctly.
  */
 public class AddPatronWindow extends JFrame implements ActionListener {
 	
@@ -32,6 +35,12 @@ public class AddPatronWindow extends JFrame implements ActionListener {
 
     private JButton addBtn = new JButton("Add");
     private JButton cancelBtn = new JButton("Cancel");
+    
+    /**
+     * Constructor for the AddPatronWindow.
+     * @param mw The parent {@link MainWindow}.
+     * Needed for refreshing the patron display, and accessing the Library model.
+     */
 
     public AddPatronWindow(MainWindow mw) {
         this.mw = mw;
@@ -39,7 +48,7 @@ public class AddPatronWindow extends JFrame implements ActionListener {
     }
 
     /**
-     * Initialize the contents of the frame.
+     * Initializes the contents of the frame.
      */
     private void initialize() {
 
@@ -79,7 +88,8 @@ public class AddPatronWindow extends JFrame implements ActionListener {
     }
     
     /**
-     * 
+     * Handles the button click events for the window.
+     * @param ae The {@link ActionEvent} triggered by clicking the Add or Cancel button.
      */
     @Override
     public void actionPerformed(ActionEvent ae) {
@@ -91,7 +101,8 @@ public class AddPatronWindow extends JFrame implements ActionListener {
     }
     
     /**
-     * 
+     * Reads the input from the GUI, creates an {@link AddPatron} command, and executes it.
+     * It also ensures that data is updated and saved correctly. If the save fails, it rollsback.
      */
     private void addPatron() {
         try {

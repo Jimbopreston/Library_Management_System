@@ -17,7 +17,11 @@ import java.time.LocalDate;
 import java.util.List;
 import javax.swing.*;
 /**
+ * A GUI window that removes patrons from the library.
  * 
+ * The PatronBookWindow class presents a dropdown list of all the patrons that can be deleted
+ * (must not have a current loan and not already be deleted), executes the {@link DeletePatron} command,
+ * as well as ensuring data is updated and saved correctly.
  */
 public class DeletePatronWindow extends JFrame implements ActionListener {
 	private MainWindow mw;
@@ -26,7 +30,9 @@ public class DeletePatronWindow extends JFrame implements ActionListener {
     private JComboBox<String> patronCombo = new JComboBox<>();
 
     /**
-     * 
+     * Constructor for the DeletePatronWindow.
+     * @param mw The parent {@link MainWindow}
+     * Needed for refreshing the patron display, and accessing the Library model.
      */
     public DeletePatronWindow(MainWindow mw) {
         this.mw = mw;
@@ -34,7 +40,11 @@ public class DeletePatronWindow extends JFrame implements ActionListener {
     }
     
     /**
+     * Initializes the contents of the frame.
      * 
+     * It also gets the list of active Patrons from the library and filters them.
+     * Only patrons without loans and patrons who are not deleted can appear, and if no deletable patrons are found, 
+     * the dropdown cannot be interacted with.
      */
     private void initialize() {
     	try {
@@ -87,7 +97,8 @@ public class DeletePatronWindow extends JFrame implements ActionListener {
     }
     
     /**
-     * 
+     * Handles the button click events for the window.
+     * @param ae The {@link ActionEvent} triggered by clicking the Delete or Cancel button.
      */
     @Override
     public void actionPerformed(ActionEvent ae) {
@@ -100,7 +111,8 @@ public class DeletePatronWindow extends JFrame implements ActionListener {
     }
     
     /**
-     * 
+     * Parses the selected patron ID from the dropdown, creates an {@link DeletePatron} command, and executes it.
+     * It also ensures that data is updated and saved correctly. If the save fails, it rollsback.
      */
     private void deletePatron() {
     	try {
@@ -115,7 +127,7 @@ public class DeletePatronWindow extends JFrame implements ActionListener {
     		//gets the ID from the string
             int patronId = Integer.parseInt(selection.split(" - ")[0]);
             
-            //Deletes the patron
+            //creates and executes the delete patron command
             Command deletePatronCmd = new DeletePatron(patronId);
             deletePatronCmd.execute(mw.getLibrary(), LocalDate.now());
             

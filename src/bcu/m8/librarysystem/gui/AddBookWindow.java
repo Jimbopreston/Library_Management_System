@@ -21,6 +21,13 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
+
+/**
+ * A GUI window that adds new books to the library.
+ * 
+ * The AddBookWindow class handles the user input for the books details, executes the {@link AddBook} command,
+ * as well as ensuring data is updated and saved correctly.
+ */
 public class AddBookWindow extends JFrame implements ActionListener {
 
     private MainWindow mw;
@@ -31,14 +38,19 @@ public class AddBookWindow extends JFrame implements ActionListener {
 
     private JButton addBtn = new JButton("Add");
     private JButton cancelBtn = new JButton("Cancel");
-
+    
+    /**
+     * Constructor for the AddBookWindow.
+     * @param mw The parent {@link MainWindow}
+     * Needed for refreshing the book display, and accessing the Library model.
+     */
     public AddBookWindow(MainWindow mw) {
         this.mw = mw;
         initialize();
     }
 
     /**
-     * Initialize the contents of the frame.
+     * Initializes the contents of the frame.
      */
     private void initialize() {
 
@@ -78,6 +90,11 @@ public class AddBookWindow extends JFrame implements ActionListener {
         setVisible(true);
 
     }
+    
+    /**
+     * Handles the button click events for the window.
+     * @param ae The {@link ActionEvent} triggered by clicking the Add or Cancel button.
+     */
 
     @Override
     public void actionPerformed(ActionEvent ae) {
@@ -88,7 +105,11 @@ public class AddBookWindow extends JFrame implements ActionListener {
         }
 
     }
-
+    
+    /**
+     * Reads the input from the GUI, creates an {@link AddBook} command, and executes it.
+     * It also ensures that data is updated and saved correctly. If the save fails, it rollsback.
+     */
     private void addBook() {
         try {
             String title = titleText.getText();
