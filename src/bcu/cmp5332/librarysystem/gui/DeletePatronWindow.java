@@ -118,7 +118,9 @@ public class DeletePatronWindow extends JFrame implements ActionListener {
                 }
             }
             
+            //refresh, confirm, close
             mw.displayPatrons();
+            JOptionPane.showMessageDialog(this, "Patron deleted successfully.");
             this.setVisible(false);
     		
     		

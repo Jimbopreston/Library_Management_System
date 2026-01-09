@@ -112,6 +112,8 @@ public class AddPatronWindow extends JFrame implements ActionListener {
             
             // refresh the view with the list of patrons
             mw.displayPatrons();
+            //confirms addition
+            JOptionPane.showMessageDialog(this, "Patron added successfully.");
             // hide (close) the AddPatronWindow
             this.setVisible(false);
         } catch (LibraryException ex) {

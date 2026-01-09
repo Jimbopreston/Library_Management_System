@@ -116,6 +116,8 @@ public class AddBookWindow extends JFrame implements ActionListener {
             
             // refresh the view with the list of books
             mw.displayBooks();
+            //confirms addition
+            JOptionPane.showMessageDialog(this, "Book added successfully.");
             // hide (close) the AddBookWindow
             this.setVisible(false);
         } catch (LibraryException ex) {
