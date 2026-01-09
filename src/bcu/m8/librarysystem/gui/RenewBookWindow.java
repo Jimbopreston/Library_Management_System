@@ -1,6 +1,8 @@
 package bcu.m8.librarysystem.gui;
 
+import bcu.m8.librarysystem.commands.BorrowBook;
 import bcu.m8.librarysystem.commands.Command;
+import bcu.m8.librarysystem.commands.DeletePatron;
 import bcu.m8.librarysystem.commands.RenewBook;
 import bcu.m8.librarysystem.data.LibraryData;
 import bcu.m8.librarysystem.main.LibraryException;
@@ -26,7 +28,11 @@ import javax.swing.UIManager;
 import javax.swing.JComboBox;
 
 /**
+ * A GUI window that renews a borrowed book (extends the due date).
  * 
+ * The RenewBookWindow class presents a dropdown list of only books that are currently being borrowed.
+ * It handles the ID of the patron borrowing the book, executes the {@link RenewBook} command,
+ * as well as ensuring data is updated and saved correctly.
  */
 public class RenewBookWindow extends JFrame implements ActionListener {
 	private MainWindow mw;
@@ -35,7 +41,9 @@ public class RenewBookWindow extends JFrame implements ActionListener {
     private JComboBox<String> bookCombo = new JComboBox<>();
 
     /**
-     * 
+     * Constructor for the RenewBookWindow.
+     * @param mw The parent {@link MainWindow}
+     * Needed for refreshing the book display, and accessing the Library model.
      */
     public RenewBookWindow(MainWindow mw) {
         this.mw = mw;
@@ -43,7 +51,11 @@ public class RenewBookWindow extends JFrame implements ActionListener {
     }
     
     /**
+     * Initializes the contents of the frame.
      * 
+     * It also gets the list of books on loan from the library and filters them.
+     * This means only borrowed books can be renewed, and if there are no books on loan,
+     * the dropdown cannot be interacted with.
      */
     private void initialize() {
     	try {
@@ -98,8 +110,9 @@ public class RenewBookWindow extends JFrame implements ActionListener {
     }
     
     /**
-     * 
-     */
+	 * Handles the button click events for the window.
+	 * @param ae The {@link ActionEvent} triggered by clicking the Delete or Cancel button.
+	 */
     @Override
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == renewBtn) {
@@ -110,7 +123,9 @@ public class RenewBookWindow extends JFrame implements ActionListener {
     }
     
     /**
-     * 
+     * Parses the selected book ID from the dropdown (which also gets the patron ID,
+     * as only the borrower can renew), creates a {@link RenewBook} command, and executes it.
+     * It also ensures that data is updated and saved correctly. If the save fails, it rollsback.
      */
     private void renewBook() {
     	try {

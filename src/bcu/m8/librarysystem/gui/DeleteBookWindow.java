@@ -16,7 +16,11 @@ import java.time.LocalDate;
 import java.util.List;
 import javax.swing.*;
 /**
+ * A GUI window that removes books from the library.
  * 
+ * The DeleteBookWindow class presents a dropdown list of all the books that can be deleted
+ * (must be available and not already deleted), executes the {@link DeleteBook} command,
+ * as well as ensuring data is updated and saved correctly.
  */
 public class DeleteBookWindow extends JFrame implements ActionListener {
 	private MainWindow mw;
@@ -25,15 +29,22 @@ public class DeleteBookWindow extends JFrame implements ActionListener {
     private JComboBox<String> bookCombo = new JComboBox<>();
 
     /**
-     * 
+     * Constructor for the DeleteBookWindow.
+     * @param mw The parent {@link MainWindow}
+     * Needed for refreshing the book display, and accessing the Library model.
      */
+     
     public DeleteBookWindow(MainWindow mw) {
         this.mw = mw;
         initialize();
     }
     
     /**
+     * Initializes the contents of the frame.
      * 
+     * It also gets the list of active books from the library and filters them.
+     * Only books not loaned and not deleted can appear, and if no deletable books are found, 
+     * the dropdown cannot be interacted with.
      */
     private void initialize() {
     	try {
@@ -86,7 +97,8 @@ public class DeleteBookWindow extends JFrame implements ActionListener {
     }
     
     /**
-     * 
+     * Handles the button click events for the window.
+     * @param ae The {@link ActionEvent} triggered by clicking the Delete or Cancel button.
      */
     @Override
     public void actionPerformed(ActionEvent ae) {
@@ -99,7 +111,8 @@ public class DeleteBookWindow extends JFrame implements ActionListener {
     }
     
     /**
-     * 
+     * Parses the selected book ID from the dropdown, creates an {@link DeleteBook} command, and executes it.
+     * It also ensures that data is updated and saved correctly. If the save fails, it rollsback.
      */
     private void deleteBook() {
     	try {

@@ -2,6 +2,7 @@ package bcu.m8.librarysystem.gui;
 
 import bcu.m8.librarysystem.commands.BorrowBook;
 import bcu.m8.librarysystem.commands.Command;
+import bcu.m8.librarysystem.commands.DeletePatron;
 import bcu.m8.librarysystem.data.LibraryData;
 import bcu.m8.librarysystem.main.LibraryException;
 import bcu.m8.librarysystem.model.Book;
@@ -26,7 +27,11 @@ import javax.swing.UIManager;
 import javax.swing.JComboBox;
 
 /**
+ * A GUI window that issues books to patrons (lets patrons borrow books).
  * 
+ * The IssueBookWindow class presents 2 dropdown lists, one for active patrons, and one for available books.
+ * It executes the {@link BorrowBook} command,
+ * as well as ensuring data is updated and saved correctly.
  */
 public class IssueBookWindow extends JFrame implements ActionListener {
 	private MainWindow mw;
@@ -38,16 +43,23 @@ public class IssueBookWindow extends JFrame implements ActionListener {
 	private JComboBox<String> bookCombo = new JComboBox<>();
 	
 	/**
-	 * 
-	 */
+     * Constructor for the IssueBookWindow.
+     * @param mw The parent {@link MainWindow}
+     * Needed for refreshing the book display, and accessing the Library model.
+     */
 	public IssueBookWindow(MainWindow mw) {
 		this.mw = mw;
 		initialize();
 	}
 	
 	/**
-	 * 
-	 */
+     * Initializes the contents of the frame.
+     * 
+     * It also gets the list of active books from the library and filters them.
+     * Only books that are currently available (not on loan or not deleted),
+     * and patrons who are currently available (don't have too many loans or not deleted)
+     * and if no issueable books or patrons are found, the dropdown cannot be interacted with.
+     */
 	private void initialize() {
 		try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -57,7 +69,7 @@ public class IssueBookWindow extends JFrame implements ActionListener {
 		
 		setTitle("Issue a book");
 		
-		setSize(300,200);
+		setSize(700,200);
 		JPanel topPanel = new JPanel();
         topPanel.setLayout(new GridLayout(2, 2));
         topPanel.add(new JLabel("Select Patron : "));
@@ -85,10 +97,14 @@ public class IssueBookWindow extends JFrame implements ActionListener {
         List<Book> books = mw.getLibrary().getActiveBooks();
         //tracks if a issueable book has been found
         boolean booksFound = false;
+        boolean patronsFound = false;
         
         //fills the patron combo
         for (Patron p : patrons) {
-        	patronCombo.addItem(p.getId() + " - " + p.getName());
+        	if (p.getBooks().size() < p.getBookLimit()) {
+        		patronCombo.addItem(p.getId() + " - " + p.getName());
+        		patronsFound = true;
+        	}
         }
         
         //fills the book combo with only books that are available
@@ -104,10 +120,18 @@ public class IssueBookWindow extends JFrame implements ActionListener {
         		bookCombo.addItem("There are no more books that can be issued");
         		bookCombo.setEnabled(false);
         	}
-    	}
+    	
+	
+		//if booksFound is false, stops the combo and buttons from working.
+		if (!patronsFound) {
+			patronCombo.addItem("There are no more patrons that can be issued books");
+			patronCombo.setEnabled(false);
+			}
+		}
 	
 		/**
-		 * 
+		 * Handles the button click events for the window.
+		 * @param ae The {@link ActionEvent} triggered by clicking the Delete or Cancel button.
 		 */
         @Override
         public void actionPerformed(ActionEvent ae) {
@@ -120,7 +144,9 @@ public class IssueBookWindow extends JFrame implements ActionListener {
         }
         
         /**
-         * 
+         * Checks that both a patron and a book have been selected.
+         * Parses the selected patron and book ID from the dropdown, creates a {@link BorrowBook} command, and executes it.
+         * It also ensures that data is updated and saved correctly. If the save fails, it rollsback.
          */
         private void issueBook() {
         	try {
@@ -128,7 +154,7 @@ public class IssueBookWindow extends JFrame implements ActionListener {
         		String patronStr = (String) patronCombo.getSelectedItem();
         		String bookStr = (String) bookCombo.getSelectedItem();
         		
-        		//in case there are no more books left.
+        		//in case there are no more books or patrons left.
         		if (patronStr == null || bookStr == null) {
         			throw new LibraryException("You must select both a patron and a book.");
         		}
