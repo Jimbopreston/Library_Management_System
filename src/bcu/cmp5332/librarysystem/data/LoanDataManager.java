@@ -53,9 +53,9 @@ public class LoanDataManager implements DataManager {
             	  List<Book> books = patron.getBooks();
             	  if(books.size() == 0) {
             		  System.out.println();
-            	  }else {
-            	  out.print(patron.getId() + SEPARATOR);
+            	  }else {            		  
             	  for(Book book : books) {
+            		  out.print(patron.getId() + SEPARATOR);
             		  out.print(book.getId() + SEPARATOR);
             		  Loan loan = book.getLoan();
             		  out.print(loan.getStartDate() + SEPARATOR);
