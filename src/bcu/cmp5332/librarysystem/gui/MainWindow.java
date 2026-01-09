@@ -182,6 +182,7 @@ public class MainWindow extends JFrame implements ActionListener {
                                  "Title: " + book.getTitle() + "\n" +
                                  "Due Date: " + book.getDueDate() + "\n\n" +
                                  "--- Patron Details ---\n" +
+                                 "ID: " + patron.getId() + "\n" +
                                  "Name: " + patron.getName() + "\n" +
                                  "Phone: " + patron.getPhone() + "\n" +
                                  "Email: " + patron.getEmail();
@@ -201,19 +202,21 @@ public class MainWindow extends JFrame implements ActionListener {
     
     //task 6.3
     //method to show the details of books a patron has borrowed (used in displayPatrons when a patron is clicked in GUI)
-    private void showPatronDetails(int patronId) {
+    private void showPatronBookDetails(int patronId) {
     	try {
     		Patron patron = library.getPatronByID(patronId);
             List<Book> booksOnLoan = patron.getBooks();
             
             if (booksOnLoan.size() > 0) {
-            	String message = "--- PATRON DETAILS ---\n" +
-            					 "Name: " + patron.getName() + "\n" +
-            					 "Phone: " + patron.getPhone() + "\n\n" +
+            	String message = "Name: " + patron.getName() + "\n\n" +
             					 "--- BOOKS CURRENTLY BORROWED ---\n";
             	
             	for (Book book : booksOnLoan) {
-            		message += book.getTitle() + " - Due: " + book.getDueDate() + "\n";
+            		message += "\n\n" +
+            				"ID: " + book.getId() + "\n" +
+            				"Title: " + book.getTitle() + "\n" +
+            				"Author: " + book.getAuthor() + "\n" +
+                            "Due Date: " + book.getDueDate();
                 }
                 
                 JOptionPane.showMessageDialog(this, message, "Patron Loans", JOptionPane.INFORMATION_MESSAGE);
@@ -296,7 +299,7 @@ public class MainWindow extends JFrame implements ActionListener {
                     int patronId = Integer.parseInt(idStr);
                     
                     //shows the loan details for the specific booked clicked.
-                    showPatronDetails(patronId);
+                    showPatronBookDetails(patronId);
                 }
             }
         });
